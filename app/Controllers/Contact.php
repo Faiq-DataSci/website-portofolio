@@ -9,6 +9,6 @@ class Contact extends BaseController
         $data = [
             'title' => 'Faiq | Contact Portofolio'
         ];
-        return view('Contact/index', $data);
+        return view('contact/index', $data);
     }
 }

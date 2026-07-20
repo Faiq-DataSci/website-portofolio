@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($title ?? 'Faiq | Projects') ?></title>
-    
+
     <!-- Link CSS - Project -->
     <link rel="stylesheet" href="/website-portofolio/public/assets/css/project.css">
-    
+
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Iconify -->
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 </head>
+
 <body>
     <div class="wrapper top-bg-white">
         <!-- Navigasi -->
         <header>
             <nav class="navbar">
                 <ul class="nav-menu">
-                    <li><a href="Home">Home</a></li>
-                    <li><a href="Projects">Project</a></li>
-                    <li><a href="Home#skills">Skills</a></li>
-                    <li><a href="Home#about">About</a></li>
-                    <li><a href="Home#contact">Contact</a></li>
+                    <li><a href="<?= base_url('/') ?>">Home</a></li>
+                    <li><a href="<?= base_url('projects') ?>">Projects</a></li>
+                    <li><a href="<?= base_url('skills') ?>">Skills</a></li>
+                    <li><a href="<?= base_url('about') ?>">About</a></li>
+                    <li><a href="<?= base_url('contact') ?>">Contact</a></li>
                 </ul>
             </nav>
         </header>
@@ -40,7 +42,7 @@
                 </p>
             </div>
             <div class="hero-image">
-                <img src="images/illustration.png" alt="Projects Illustration" style="width:100%; max-width:400px; object-fit:contain; border-radius: 12px;">
+                <img src="<?= base_url('assets/img/project.png') ?>" alt="Projects Illustration" style="width:100%; max-width:400px; object-fit:contain; border-radius: 12px;">
             </div>
         </section>
 
@@ -195,4 +197,5 @@
         });
     </script>
 </body>
+
 </html>

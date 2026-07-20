@@ -9,6 +9,6 @@ class Skills extends BaseController
         $data = [
             'title' => 'Faiq | Skills Portofolio'
         ];
-        return view('Skills/index', $data);
+        return view('skills/index', $data);
     }
 }

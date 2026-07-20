@@ -110,6 +110,12 @@ header {
     max-width: 600px;
 }
 
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
 /* Tech Stack Banner */
 .tech-stack-banner {
     border-top: 1px solid rgba(0,0,0,0.1);

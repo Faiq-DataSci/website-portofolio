@@ -9,6 +9,6 @@ class About extends BaseController
         $data = [
             'title' => 'Faiq | About Portofolio'
         ];
-        return view('About/index', $data);
+        return view('about/index', $data);
     }
 }

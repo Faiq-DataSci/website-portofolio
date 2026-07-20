@@ -17,11 +17,11 @@
     <header>
         <nav class="navbar">
             <ul class="nav-menu">
-                <li><a href="Home">Home</a></li>
-                <li><a href="Projects">Project</a></li>
-                <li><a href="Home#skills">Skills</a></li>
-                <li><a href="Home#about" class="active">About</a></li>
-                <li><a href="Home#contact">Contact</a></li>
+                <li><a href="<?= base_url('/') ?>">Home</a></li>
+                <li><a href="<?= base_url('projects') ?>">Projects</a></li>
+                <li><a href="<?= base_url('skills') ?>">Skills</a></li>
+                <li><a href="<?= base_url('about') ?>">About</a></li>
+                <li><a href="<?= base_url('contact') ?>">Contact</a></li>
             </ul>
         </nav>
     </header>
