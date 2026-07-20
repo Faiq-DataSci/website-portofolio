@@ -1,0 +1,303 @@
+/* Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #FFFFFF;
+    color: #111;
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 60px;
+}
+
+/* ========================
+   Navbar
+======================== */
+header {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+.navbar {
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 50px;
+    padding: 12px 50px;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 40px;
+}
+
+.nav-menu li a {
+    text-decoration: none;
+    color: #111;
+    font-size: 16px;
+    font-weight: 400;
+    transition: color 0.2s;
+}
+
+.nav-menu li a:hover,
+.nav-menu li a.active {
+    color: #000;
+    font-weight: 600;
+}
+
+/* ========================
+   Hero Section
+======================== */
+.contact-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin: 60px 0 50px 0;
+}
+
+.hero-text {
+    max-width: 380px;
+}
+
+.contact-hero h1 {
+    font-size: 48px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 14px;
+    line-height: 1.1;
+}
+
+.contact-hero p {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.65;
+}
+
+/* Photo placeholder */
+.hero-photo {
+    width: 260px;
+    height: 260px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    flex-shrink: 0;
+    background: #f2f2f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+/* Fallback if image fails to load */
+.hero-photo.placeholder::after {
+    content: 'Foto Profil';
+    font-size: 13px;
+    color: #aaa;
+}
+
+/* ========================
+   Two-Column Layout
+======================== */
+.contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto 80px auto;
+    padding: 0 60px;
+    align-items: stretch;
+}
+
+/* ========================
+   Left Card: Contact Information
+======================== */
+.contact-card {
+    background: #FFFFFF;
+    border: 1px solid #c0c0c0;
+    border-radius: 12px;
+    padding: 28px 24px;
+}
+
+.contact-card h2 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #111;
+    font-size: 14px;
+    font-weight: 400;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px 14px;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.contact-item:hover {
+    background: #f5f5f5;
+    border-color: #aaa;
+}
+
+.contact-item iconify-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+/* ========================
+   Right Card: CTA
+======================== */
+.cta-card {
+    background: #FFFFFF;
+    border: 1px solid #c0c0c0;
+    border-radius: 12px;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    justify-content: space-between;
+}
+
+.cta-icon {
+    margin-bottom: 4px;
+}
+
+.cta-card h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #111;
+}
+
+.cta-card>p {
+    font-size: 13px;
+    color: #333;
+    line-height: 1.6;
+    max-width: 280px;
+}
+
+/* CTA checklist */
+.cta-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    align-items: flex-start;
+    padding: 0 10px;
+}
+
+.cta-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #111;
+}
+
+.cta-list li iconify-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+/* WhatsApp CTA Button */
+.cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #25D366;
+    color: #fff;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 12px 32px;
+    border-radius: 8px;
+    margin-top: 6px;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.cta-btn:hover {
+    background-color: #1ebe59;
+    transform: translateY(-1px);
+}
+
+/* ========================
+   Footer
+======================== */
+footer {
+    border-top: 1px solid #111;
+    padding: 36px 0;
+    background: #FFFFFF;
+    margin-top: 120px;
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.footer-content h3 {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.footer-content p {
+    font-size: 15px;
+    color: #111;
+    margin-bottom: 10px;
+}
+
+.footer-content small {
+    font-size: 12px;
+    color: #555;
+}
+
+/* ========================
+   Responsive
+======================== */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 20px;
+    }
+
+    .contact-layout {
+        grid-template-columns: 1fr;
+        padding: 0 20px;
+    }
+
+    .contact-hero h1 {
+        font-size: 34px;
+    }
+}

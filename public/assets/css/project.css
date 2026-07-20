@@ -1,0 +1,429 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg-white: #ffffff;
+    --bg-gray: #F4F5F0;
+    --text-dark: #000000;
+    --text-light: #ffffff;
+    
+    --color-red: #FB2C53;
+    --color-blue: #007BFF;
+    --color-yellow: #FDD835;
+    --color-green: #34C759;
+    --color-purple: #7B61FF;
+
+    --font-main: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-main);
+    color: var(--text-dark);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+    background-color: var(--bg-white);
+}
+
+.wrapper {
+    width: 100%;
+}
+
+.top-bg-white {
+    background-color: var(--bg-white);
+}
+
+/* Navbar */
+header {
+    display: flex;
+    justify-content: center;
+    padding-top: 24px;
+    margin-bottom: 60px;
+}
+
+.navbar {
+    background: var(--bg-white);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 50px;
+    padding: 12px 32px;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 32px;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 15px;
+    transition: opacity 0.2s;
+    font-weight: 500;
+}
+
+.nav-menu a:hover {
+    opacity: 0.6;
+}
+
+/* Hero */
+.project-hero {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.hero-text {
+    flex: 1;
+    max-width: 500px;
+}
+
+.hero-text h1 {
+    font-size: 48px;
+    font-weight: 400;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+}
+
+.hero-text p {
+    font-size: 18px;
+    line-height: 1.6;
+    opacity: 0.8;
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.hero-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Filters */
+.filters-section {
+    max-width: 1100px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    border: none;
+    padding: 8px 24px;
+    border-radius: 50px;
+    color: var(--text-light);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: var(--font-main);
+    transition: opacity 0.2s;
+}
+
+.filter-btn:hover {
+    opacity: 0.8;
+}
+
+.btn-all { background-color: var(--color-red); }
+.btn-data-science { background-color: var(--color-blue); }
+.btn-python { background-color: var(--color-yellow); color: var(--text-dark); }
+.btn-ml { background-color: var(--color-green); }
+.btn-ai { background-color: var(--color-purple); }
+
+/* Project Grid */
+.project-grid {
+    max-width: 1100px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.project-card {
+    background-color: var(--bg-white);
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.card-body {
+    padding: 0 24px 24px 24px;
+    position: relative;
+}
+
+.project-tags {
+    display: flex;
+    gap: 8px;
+    transform: translateY(-50%);
+}
+
+.tag {
+    padding: 4px 16px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-light);
+}
+
+.tag.blue { background-color: var(--color-blue); }
+.tag.yellow { background-color: var(--color-yellow); color: var(--text-dark); }
+.tag.green { background-color: var(--color-green); }
+.tag.purple { background-color: var(--color-purple); }
+
+.project-card h3 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.project-card p {
+    font-size: 13px;
+    line-height: 1.6;
+    opacity: 0.8;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 80px;
+}
+
+.page-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(0,0,0,0.2);
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: var(--font-main);
+    font-size: 15px;
+    color: var(--text-dark);
+}
+
+.page-btn:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+.page-btn.active {
+    font-weight: 600;
+    border-width: 1.5px;
+}
+
+/* Footer */
+footer {
+    background-color: var(--bg-white);
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding: 60px 20px;
+}
+
+.footer-content {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.footer-content h3 {
+    font-size: 32px;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.footer-content p {
+    font-size: 18px;
+    margin-bottom: 24px;
+}
+
+.footer-content small {
+    font-size: 14px;
+    opacity: 0.6;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .project-hero {
+        flex-direction: column;
+        text-align: center;
+    }
+    .hero-text {
+        max-width: 100%;
+    }
+    .hero-image {
+        justify-content: center;
+    }
+    .project-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .project-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   Modal Overlay & Content 
+   ========================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: var(--bg-white);
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    border-radius: 16px;
+    overflow-y: auto;
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    display: block;
+}
+
+.modal-body {
+    padding: 32px;
+}
+
+.modal-header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.modal-tags {
+    display: flex;
+    gap: 8px;
+}
+
+.modal-tags .tag {
+    font-size: 14px;
+    padding: 6px 20px;
+}
+
+.github-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dark);
+    text-decoration: none;
+    font-size: 24px;
+    transition: background 0.2s;
+}
+
+.github-btn:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.modal-title {
+    font-size: 32px;
+    font-weight: 500;
+    margin-bottom: 24px;
+}
+
+.modal-text {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    color: #333;
+}
+
+.modal-text strong {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.modal-footer {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.back-btn {
+    color: var(--color-red);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    text-decoration: underline;
+}
+
+/* Make project cards clickable */
+.project-card {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.05);
+}
