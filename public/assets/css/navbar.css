@@ -1,0 +1,103 @@
+/* ========================================
+   GOOGLE-INSPIRED PROFESSIONAL NAVBAR
+   Minimalis, mewah, dan elegan
+   ======================================== */
+
+/* Navbar Container */
+.navbar {
+    background: #FFFFFF;
+    border: 1px solid #DADCE0;
+    box-shadow: 0 1px 3px rgba(60, 64, 67, 0.1);
+    border-radius: 50px;
+    padding: 14px 50px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: fit-content;
+    margin: 0 auto;
+}
+
+.navbar:hover {
+    box-shadow: 0 2px 6px rgba(60, 64, 67, 0.15);
+}
+
+/* Nav Menu List */
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 40px;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Nav Menu Links */
+.nav-menu li {
+    position: relative;
+}
+
+.nav-menu li a {
+    text-decoration: none;
+    color: #5F6368;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 10px 18px;
+    border-radius: 24px;
+    display: inline-block;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    letter-spacing: 0.2px;
+}
+
+/* Hover Effect - Subtle and Professional */
+.nav-menu li a:hover {
+    color: #202124;
+    background: #F1F3F4;
+    font-weight: 500;
+}
+
+/* Active State - Elegant Dark Theme */
+.nav-menu li a.active {
+    color: #202124;
+    background: #E8EAED;
+    font-weight: 600;
+}
+
+.nav-menu li a.active:hover {
+    background: #DADCE0;
+}
+
+/* Responsive untuk Tablet */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 30px;
+        border-radius: 40px;
+    }
+
+    .nav-menu {
+        gap: 24px;
+    }
+
+    .nav-menu li a {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+}
+
+/* Responsive untuk Mobile */
+@media (max-width: 480px) {
+    .navbar {
+        padding: 8px 20px;
+        border-radius: 30px;
+    }
+
+    .nav-menu {
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-menu li a {
+        font-size: 13px;
+        padding: 5px 10px;
+    }
+}

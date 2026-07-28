@@ -8,6 +8,9 @@
     <!-- Nama Dokumen -->
     <title><?= esc($title ?? 'Faiq | Skills') ?></title>
 
+    <!-- Link CSS - Navbar (Global) -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/navbar.css?v=1.0') ?>">
+
     <!-- Link CSS - Skills -->
     <link rel="stylesheet" href="<?= base_url('assets/css/skills.css') ?>">
 

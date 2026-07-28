@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($title ?? 'Faiq | Portofolio') ?></title>
 
+    <!-- Link CSS - Navbar (Global) -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/navbar.css?v=1.0') ?>">
+    
     <!-- Link CSS - Home -->
     <link rel="stylesheet" href="<?= base_url('assets/css/home.css') ?>">
 

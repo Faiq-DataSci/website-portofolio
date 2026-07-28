@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($title ?? 'Faiq | About') ?></title>
+    
+    <!-- Link CSS - Navbar (Global) -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/navbar.css?v=1.0') ?>">
+    
+    <!-- Link CSS - About -->
     <link rel="stylesheet" href="<?= base_url('assets/css/abouts.css') ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
