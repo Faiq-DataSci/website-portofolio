@@ -205,13 +205,13 @@
                                 <div class="input-with-icon">
                                     <iconify-icon icon="mdi:github" class="input-icon"></iconify-icon>
                                     <input
-                                        type="text"
+                                        type="url"
                                         id="github"
                                         name="github"
-                                        placeholder="https://github.com/"
+                                        placeholder="https://github.com/username/repository"
                                         value="<?= esc($currentGithub) ?>">
                                 </div>
-                                <small>Masukan link github project anda</small>
+                                <small>Masukan link GitHub repository project Anda (Opsional)</small>
                             </div>
 
                             <!-- Kategori Project -->
@@ -373,6 +373,78 @@
                     }
                 }, 0);
             });
+        });
+    </script>
+
+    <!-- GitHub Link Validation JS -->
+    <script>
+        const githubInput = document.getElementById('github');
+        
+        githubInput.addEventListener('blur', function() {
+            const value = this.value.trim();
+            
+            // Jika kosong, tidak perlu validasi (opsional)
+            if (!value) {
+                this.style.borderColor = '';
+                return;
+            }
+            
+            // Validasi format GitHub URL
+            const githubPattern = /^https?:\/\/(www\.)?github\.com\/[\w-]+\/[\w-]+\/?$/i;
+            
+            if (githubPattern.test(value)) {
+                this.style.borderColor = '#10b981'; // hijau jika valid
+            } else {
+                this.style.borderColor = '#ef4444'; // merah jika tidak valid
+            }
+        });
+
+        // Reset border saat user mulai mengetik
+        githubInput.addEventListener('input', function() {
+            this.style.borderColor = '';
+        });
+    </script>
+
+    <!-- Category Preview Dynamic JS -->
+    <script>
+        const categorySelect = document.getElementById('category');
+        const categoryPreview = document.getElementById('categoryPreview');
+
+        categorySelect.addEventListener('change', function() {
+            const selectedValue = this.value;
+            
+            // Remove all category classes
+            categoryPreview.className = 'category-preview';
+            
+            if (selectedValue) {
+                // Add active class
+                categoryPreview.classList.add('active');
+                
+                // Add specific category class
+                switch(selectedValue) {
+                    case 'Web Development':
+                        categoryPreview.classList.add('cat-web');
+                        break;
+                    case 'Machine Learning':
+                        categoryPreview.classList.add('cat-ml');
+                        break;
+                    case 'Data Science':
+                        categoryPreview.classList.add('cat-ds');
+                        break;
+                    case 'Mobile App':
+                        categoryPreview.classList.add('cat-mobile');
+                        break;
+                    case 'Desktop App':
+                        categoryPreview.classList.add('cat-desktop');
+                        break;
+                }
+                
+                // Update text
+                categoryPreview.textContent = selectedValue;
+            } else {
+                // Hide preview if no selection
+                categoryPreview.classList.remove('active');
+            }
         });
     </script>
 

@@ -318,11 +318,25 @@ ul {
     font-family: inherit;
     color: #000000;
     outline: none;
-    transition: border-color 0.2s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .input-with-icon input:focus {
     border-color: #0088FF;
+    box-shadow: 0 0 0 3px rgba(0, 136, 255, 0.1);
+}
+
+/* GitHub Link Validation States */
+.input-with-icon input[style*="border-color: rgb(16, 185, 129)"],
+.input-with-icon input[style*="border-color:#10b981"] {
+    border-color: #10b981 !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.input-with-icon input[style*="border-color: rgb(239, 68, 68)"],
+.input-with-icon input[style*="border-color:#ef4444"] {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
 /* Upload Dropzone Box */
