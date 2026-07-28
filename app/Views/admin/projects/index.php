@@ -46,9 +46,9 @@
                     <span>Skills</span>
                 </a>
 
-                <a href="<?= base_url('admin/gallery') ?>">
-                    <iconify-icon icon="solar:gallery-outline"></iconify-icon>
-                    <span>Gambar</span>
+                <a href="<?= base_url('admin/certificates') ?>">
+                    <iconify-icon icon="solar:diploma-verified-bold"></iconify-icon>
+                    <span>Certificate</span>
                 </a>
 
             </nav>
@@ -101,44 +101,44 @@
                 <div class="card stat-card">
                     <div>
                         <h4>Total Project</h4>
-                        <h2 class="stat-number blue"><?= $totalProjects ?? 12 ?></h2>
+                        <h2 class="stat-number blue"><?= $totalProjects ?? 0 ?></h2>
                     </div>
 
                     <div class="icon blue">
-                        <iconify-icon icon="solar:users-group-rounded-bold"></iconify-icon>
-                    </div>
-                </div>
-
-                <div class="card stat-card">
-                    <div>
-                        <h4>Publikasi</h4>
-                        <h2 class="stat-number red"><?= $publishedCount ?? 12 ?></h2>
-                    </div>
-
-                    <div class="icon red">
                         <iconify-icon icon="solar:folder-bold"></iconify-icon>
                     </div>
                 </div>
 
                 <div class="card stat-card">
                     <div>
-                        <h4>Draf</h4>
-                        <h2 class="stat-number yellow"><?= $draftCount ?? 5 ?></h2>
+                        <h4>Published</h4>
+                        <h2 class="stat-number green"><?= $publishedCount ?? 0 ?></h2>
+                    </div>
+
+                    <div class="icon green">
+                        <iconify-icon icon="solar:check-circle-bold"></iconify-icon>
+                    </div>
+                </div>
+
+                <div class="card stat-card">
+                    <div>
+                        <h4>Draft</h4>
+                        <h2 class="stat-number yellow"><?= $draftCount ?? 0 ?></h2>
                     </div>
 
                     <div class="icon yellow">
-                        <iconify-icon icon="solar:code-bold"></iconify-icon>
+                        <iconify-icon icon="solar:file-text-bold"></iconify-icon>
                     </div>
                 </div>
 
                 <div class="card stat-card">
                     <div>
                         <h4>Archived</h4>
-                        <h2 class="stat-number green"><?= $archivedCount ?? 5 ?></h2>
+                        <h2 class="stat-number red"><?= $archivedCount ?? 0 ?></h2>
                     </div>
 
-                    <div class="icon green">
-                        <iconify-icon icon="solar:gallery-bold"></iconify-icon>
+                    <div class="icon red">
+                        <iconify-icon icon="solar:archive-bold"></iconify-icon>
                     </div>
                 </div>
 
@@ -194,7 +194,7 @@
 
                     <tbody>
 
-                        <?php if (!empty($projects)): ?>
+                        <?php if (!empty($projects) && count($projects) > 0): ?>
                             <?php foreach ($projects as $index => $item): ?>
 
                                 <tr>
@@ -208,15 +208,21 @@
                                             <?php if (!empty($item['thumbnail'])): ?>
                                                 <img src="<?= base_url('uploads/projects/' . $item['thumbnail']) ?>" alt="Project">
                                             <?php else: ?>
-                                                <div class="thumb-placeholder"></div>
+                                                <div class="thumb-placeholder" style="width:50px; height:50px; background:#f0f0f0; border-radius:8px; display:flex; align-items:center; justify-content:center;">
+                                                    <iconify-icon icon="solar:gallery-outline" style="font-size:24px; color:#ccc;"></iconify-icon>
+                                                </div>
                                             <?php endif; ?>
 
                                             <div>
 
                                                 <h4><?= esc($item['title']) ?></h4>
 
-                                                <small>
-                                                    <?= esc($item['description'] ?? 'Website portofolio pribadi dengan desain moderen') ?>
+                                                <small style="color:#8E8E93; font-size:13px;">
+                                                    <?php 
+                                                        $desc = $item['description'] ?? 'Belum ada deskripsi';
+                                                        echo esc(mb_substr($desc, 0, 60));
+                                                        echo mb_strlen($desc) > 60 ? '...' : '';
+                                                    ?>
                                                 </small>
 
                                             </div>
@@ -227,7 +233,7 @@
 
                                     <td>
 
-                                        <span class="badge-blue">
+                                        <span class="badge-blue" style="background:#E3F2FD; color:#1976D2; padding:4px 14px; border-radius:20px; font-size:12px; font-weight:500;">
                                             <?= esc($item['category'] ?? 'Web Development') ?>
                                         </span>
 
@@ -239,7 +245,7 @@
                                             $st = strtolower($item['status'] ?? 'published');
                                         ?>
                                         <?php if ($st === 'published'): ?>
-                                            <span class="badge-green">Published</span>
+                                            <span class="badge-green" style="background:#D4F5DD; color:#1B8A3A; padding:4px 14px; border-radius:20px; font-size:12px; font-weight:500;">Published</span>
                                         <?php elseif ($st === 'draft'): ?>
                                             <span class="badge-warning" style="background:#FFECCC; color:#B8860B; padding:4px 14px; border-radius:20px; font-size:12px; font-weight:500;">Draft</span>
                                         <?php else: ?>
@@ -250,7 +256,7 @@
 
                                     <td>
 
-                                        <?= !empty($item['created_at']) ? date('d M Y', strtotime($item['created_at'])) : '22 Mei 2026' ?>
+                                        <?= !empty($item['created_at']) ? date('d M Y', strtotime($item['created_at'])) : '-' ?>
 
                                     </td>
 
@@ -258,7 +264,7 @@
 
                                         <div class="action-button">
 
-                                            <a href="<?= !empty($item['github']) ? esc($item['github']) : '#' ?>" target="_blank" class="btn-view" title="Lihat Project">
+                                            <a href="<?= !empty($item['github']) ? esc($item['github']) : '#' ?>" target="_blank" class="btn-view" title="Lihat Project" <?= empty($item['github']) ? 'style="opacity:0.5; pointer-events:none;"' : '' ?>>
 
                                                 <iconify-icon
                                                     icon="solar:eye-outline">
@@ -274,7 +280,10 @@
 
                                             </a>
 
-                                            <a href="<?= base_url('admin/project/delete/' . $item['id']) ?>" class="btn-delete" title="Hapus Project" onclick="return confirm('Apakah Anda yakin ingin menghapus project ini?');">
+                                            <a href="<?= base_url('admin/project/delete/' . $item['id']) ?>" 
+                                               class="btn-delete" 
+                                               title="Hapus Project" 
+                                               onclick="return confirmDelete('<?= esc($item['title'], 'js') ?>');">
 
                                                 <iconify-icon
                                                     icon="solar:trash-bin-trash-outline">
@@ -289,6 +298,23 @@
                                 </tr>
 
                             <?php endforeach; ?>
+                        <?php else: ?>
+                            <!-- Empty State -->
+                            <tr>
+                                <td colspan="6" style="text-align:center; padding:60px 20px; background:#FAFAFA; border-radius:12px;">
+                                    <div style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+                                        <iconify-icon icon="solar:folder-open-outline" style="font-size:80px; color:#D0D0D0;"></iconify-icon>
+                                        <div>
+                                            <h3 style="color:#666; font-size:18px; margin:0 0 8px 0;">Belum Ada Project</h3>
+                                            <p style="color:#999; font-size:14px; margin:0 0 20px 0;">Mulai tambahkan project pertama Anda untuk ditampilkan di portofolio</p>
+                                            <a href="<?= base_url('admin/project/create') ?>" style="display:inline-flex; align-items:center; gap:8px; background:#007BFF; color:#fff; padding:10px 24px; border-radius:8px; text-decoration:none; font-weight:500; font-size:14px;">
+                                                <iconify-icon icon="solar:add-circle-outline"></iconify-icon>
+                                                Tambah Project Pertama
+                                            </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                         <?php endif; ?>
 
                     </tbody>
@@ -296,13 +322,15 @@
                 </table>
 
                 <!-- Footer Table -->
+                <?php if (!empty($projects) && count($projects) > 0): ?>
                 <div class="table-footer">
 
                     <p>
-                        Menampilkan 1 - <?= count($projects ?? []) ?> dari <?= $totalProjects ?? 12 ?> project
+                        Menampilkan <strong>1 - <?= count($projects) ?></strong> dari <strong><?= $totalProjects ?></strong> project
                     </p>
 
-                    <div class="pagination">
+                    <!-- Pagination (Coming Soon) -->
+                    <!-- <div class="pagination">
 
                         <a href="#">
                             <iconify-icon icon="solar:alt-arrow-left-outline"></iconify-icon>
@@ -318,9 +346,10 @@
                             <iconify-icon icon="solar:alt-arrow-right-outline"></iconify-icon>
                         </a>
 
-                    </div>
+                    </div> -->
 
                 </div>
+                <?php endif; ?>
 
             </section>
 
@@ -332,6 +361,24 @@
         </main>
 
     </div>
+
+    <script>
+        function confirmDelete(projectTitle) {
+            return confirm('Apakah Anda yakin ingin menghapus project "' + projectTitle + '"?\n\nTindakan ini tidak dapat dibatalkan.');
+        }
+
+        // Auto-hide flash messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.style.transition = 'opacity 0.5s ease';
+                    alert.style.opacity = '0';
+                    setTimeout(() => alert.remove(), 500);
+                }, 5000);
+            });
+        });
+    </script>
 
 </body>
 

@@ -18,47 +18,41 @@ class Skills extends BaseController
     {
         $skills = [];
         try {
-            $skills = $this->skillModel->orderBy('id', 'DESC')->findAll();
+            $skills = $this->skillModel->orderBy('category', 'ASC')
+                                       ->orderBy('order_index', 'ASC')
+                                       ->findAll();
         } catch (\Throwable $e) {
+            log_message('error', 'Failed to load skills in admin: ' . $e->getMessage());
             $skills = [];
         }
 
-        // Fallback mock data if DB table doesn't have rows yet
-        if (empty($skills)) {
-            $skills = [
-                ['id' => 1, 'name' => 'HTML5', 'category' => 'Frontend', 'level' => 90, 'icon' => 'logos:html-5', 'status' => 1],
-                ['id' => 2, 'name' => 'CSS3', 'category' => 'Frontend', 'level' => 85, 'icon' => 'logos:css-3', 'status' => 1],
-                ['id' => 3, 'name' => 'JavaScript', 'category' => 'Frontend', 'level' => 80, 'icon' => 'logos:javascript', 'status' => 1],
-                ['id' => 4, 'name' => 'React.js', 'category' => 'Frontend', 'level' => 75, 'icon' => 'logos:react', 'status' => 1],
-                ['id' => 5, 'name' => 'Node.js', 'category' => 'Backend', 'level' => 70, 'icon' => 'logos:nodejs-icon', 'status' => 0],
-                ['id' => 6, 'name' => 'Python', 'category' => 'Machine Learning', 'level' => 85, 'icon' => 'logos:python', 'status' => 1],
-            ];
-        }
-
         // Calculate statistics
-        $totalSkills = count($skills);
-        $totalActive = 0;
+        $totalSkills   = count($skills);
+        $totalActive   = 0;
         $totalInactive = 0;
-        $categories = [];
+        $categories    = [];
 
         foreach ($skills as $skill) {
-            if (!empty($skill['status'])) {
+            $status = strtolower($skill['status'] ?? 'active');
+            if ($status === 'active') {
                 $totalActive++;
             } else {
                 $totalInactive++;
             }
-            if (!empty($skill['category']) && !in_array($skill['category'], $categories)) {
-                $categories[] = $skill['category'];
+            
+            $cat = $skill['category'] ?? 'Other';
+            if (!in_array($cat, $categories)) {
+                $categories[] = $cat;
             }
         }
 
         $data = [
-            'title'           => 'Admin Faiq | Data Scientist & AI Developer Portofolio',
-            'skills'          => $skills,
-            'totalSkills'     => $totalSkills,
-            'totalActive'     => $totalActive,
-            'totalInactive'   => $totalInactive,
-            'totalCategory'   => count($categories),
+            'title'         => 'Admin Skills | Faiq Portfolio',
+            'skills'        => $skills,
+            'totalSkills'   => $totalSkills,
+            'totalActive'   => $totalActive,
+            'totalInactive' => $totalInactive,
+            'totalCategory' => count($categories),
         ];
 
         return view('admin/skills/index', $data);
@@ -67,39 +61,55 @@ class Skills extends BaseController
     public function create(): string
     {
         $data = [
-            'title' => 'Tambah Skills | Admin Faiq',
-            'skill' => null,
+            'title'  => 'Tambah Skill | Admin Faiq',
+            'skill'  => null,
             'isEdit' => false,
         ];
-        return view('admin/skills/tambah_skill', $data);
+        return view('admin/skills/form', $data);
     }
 
     public function store()
     {
-        $name     = trim($this->request->getPost('skill_name') ?? $this->request->getPost('name') ?? '');
-        $category = trim($this->request->getPost('category') ?? 'Frontend');
-        $level    = (int) ($this->request->getPost('level') ?? 80);
-        $icon     = trim($this->request->getPost('icon') ?? 'logos:react');
-        $status   = (int) ($this->request->getPost('status') ?? 1);
+        // Validasi input
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'name'        => 'required|min_length[2]|max_length[100]',
+            'category'    => 'required|max_length[50]',
+            'level'       => 'required|integer|greater_than_equal_to[0]|less_than_equal_to[100]',
+            'icon'        => 'permit_empty|max_length[100]',
+            'description' => 'permit_empty|max_length[500]',
+            'order_index' => 'permit_empty|integer',
+            'status'      => 'required|in_list[active,inactive]',
+        ]);
 
-        if (empty($name)) {
-            return redirect()->back()->withInput()->with('error', 'Nama skill wajib diisi.');
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('error', implode('<br>', $validation->getErrors()));
         }
 
+        $name        = trim($this->request->getPost('name'));
+        $category    = trim($this->request->getPost('category'));
+        $level       = (int) $this->request->getPost('level');
+        $icon        = trim($this->request->getPost('icon') ?? '');
+        $description = trim($this->request->getPost('description') ?? '');
+        $orderIndex  = (int) ($this->request->getPost('order_index') ?? 0);
+        $status      = trim($this->request->getPost('status'));
+
         $saveData = [
-            'name'     => $name,
-            'category' => $category,
-            'level'    => $level,
-            'icon'     => $icon,
-            'status'   => $status,
+            'name'        => $name,
+            'category'    => $category,
+            'level'       => $level,
+            'icon'        => $icon,
+            'description' => $description,
+            'order_index' => $orderIndex,
+            'status'      => $status,
         ];
 
         try {
             $this->skillModel->insert($saveData);
-            return redirect()->to(base_url('admin/skills'))->with('success', 'Skill berhasil ditambahkan!');
+            return redirect()->to(base_url('admin/skills'))->with('success', 'Skill "' . esc($name) . '" berhasil ditambahkan!');
         } catch (\Throwable $e) {
-            // DB insert failed (table might not exist yet), still give feedback
-            return redirect()->to(base_url('admin/skills'))->with('success', 'Skill "' . esc($name) . '" berhasil disimpan!');
+            log_message('error', 'Failed to insert skill: ' . $e->getMessage());
+            return redirect()->to(base_url('admin/skills'))->with('error', 'Gagal menyimpan skill. Silakan coba lagi.');
         }
     }
 
@@ -109,19 +119,12 @@ class Skills extends BaseController
         try {
             $skill = $this->skillModel->find($id);
         } catch (\Throwable $e) {
+            log_message('error', 'Failed to find skill: ' . $e->getMessage());
             $skill = null;
         }
 
         if (!$skill) {
-            // Mock fallback for editing
-            $skill = [
-                'id'       => $id,
-                'name'     => 'React.js',
-                'category' => 'Frontend',
-                'level'    => 80,
-                'icon'     => 'logos:react',
-                'status'   => 1,
-            ];
+            return redirect()->to(base_url('admin/skills'))->with('error', 'Skill tidak ditemukan.');
         }
 
         $data = [
@@ -130,46 +133,68 @@ class Skills extends BaseController
             'isEdit' => true,
         ];
 
-        return view('admin/skills/tambah_skill', $data);
+        return view('admin/skills/form', $data);
     }
 
     public function update($id)
     {
-        $name     = trim($this->request->getPost('skill_name') ?? $this->request->getPost('name') ?? '');
-        $category = trim($this->request->getPost('category') ?? 'Frontend');
-        $level    = (int) ($this->request->getPost('level') ?? 80);
-        $icon     = trim($this->request->getPost('icon') ?? 'logos:react');
-        $status   = (int) ($this->request->getPost('status') ?? 1);
+        // Validasi input
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'name'        => 'required|min_length[2]|max_length[100]',
+            'category'    => 'required|max_length[50]',
+            'level'       => 'required|integer|greater_than_equal_to[0]|less_than_equal_to[100]',
+            'icon'        => 'permit_empty|max_length[100]',
+            'description' => 'permit_empty|max_length[500]',
+            'order_index' => 'permit_empty|integer',
+            'status'      => 'required|in_list[active,inactive]',
+        ]);
 
-        if (empty($name)) {
-            return redirect()->back()->withInput()->with('error', 'Nama skill wajib diisi.');
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('error', implode('<br>', $validation->getErrors()));
         }
 
+        $name        = trim($this->request->getPost('name'));
+        $category    = trim($this->request->getPost('category'));
+        $level       = (int) $this->request->getPost('level');
+        $icon        = trim($this->request->getPost('icon') ?? '');
+        $description = trim($this->request->getPost('description') ?? '');
+        $orderIndex  = (int) ($this->request->getPost('order_index') ?? 0);
+        $status      = trim($this->request->getPost('status'));
+
         $saveData = [
-            'name'     => $name,
-            'category' => $category,
-            'level'    => $level,
-            'icon'     => $icon,
-            'status'   => $status,
+            'name'        => $name,
+            'category'    => $category,
+            'level'       => $level,
+            'icon'        => $icon,
+            'description' => $description,
+            'order_index' => $orderIndex,
+            'status'      => $status,
         ];
 
         try {
             $this->skillModel->update($id, $saveData);
+            return redirect()->to(base_url('admin/skills'))->with('success', 'Skill "' . esc($name) . '" berhasil diperbarui!');
         } catch (\Throwable $e) {
-            // Ignore DB error if table not created
+            log_message('error', 'Failed to update skill: ' . $e->getMessage());
+            return redirect()->to(base_url('admin/skills'))->with('error', 'Gagal memperbarui skill. Silakan coba lagi.');
         }
-
-        return redirect()->to(base_url('admin/skills'))->with('success', 'Skill "' . esc($name) . '" berhasil diperbarui!');
     }
 
     public function delete($id)
     {
         try {
-            $this->skillModel->delete($id);
+            $skill = $this->skillModel->find($id);
+            
+            if ($skill) {
+                $this->skillModel->delete($id);
+                return redirect()->to(base_url('admin/skills'))->with('success', 'Skill "' . esc($skill['name']) . '" berhasil dihapus!');
+            } else {
+                return redirect()->to(base_url('admin/skills'))->with('error', 'Skill tidak ditemukan.');
+            }
         } catch (\Throwable $e) {
-            // Ignore DB error
+            log_message('error', 'Failed to delete skill: ' . $e->getMessage());
+            return redirect()->to(base_url('admin/skills'))->with('error', 'Gagal menghapus skill. Silakan coba lagi.');
         }
-
-        return redirect()->to(base_url('admin/skills'))->with('success', 'Skill berhasil dihapus!');
     }
 }

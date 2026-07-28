@@ -46,9 +46,9 @@
                     <span>Skills</span>
                 </a>
 
-                <a href="<?= base_url('admin/gallery') ?>">
-                    <iconify-icon icon="solar:gallery-outline"></iconify-icon>
-                    <span>Gambar</span>
+                <a href="<?= base_url('admin/certificates') ?>">
+                    <iconify-icon icon="solar:diploma-verified-bold"></iconify-icon>
+                    <span>Certificate</span>
                 </a>
 
             </nav>
@@ -229,6 +229,45 @@
 
                     </div>
 
+                    <!-- Technologies Section (Full Width) -->
+                    <div class="technologies-section">
+                        <h3>Technologies</h3>
+                        <p class="tech-subtitle">Pilih teknologi yang digunakan dalam project ini</p>
+                        
+                        <?php
+                            // Daftar teknologi yang tersedia
+                            $availableTechs = [
+                                'Python', 'Pandas', 'Jupyter', 'NumPy', 'Scikit-learn', 'TensorFlow', 'PyTorch',
+                                'Matplotlib', 'Seaborn', 'SQL', 'MySQL', 'PostgreSQL', 'MongoDB',
+                                'PHP', 'JavaScript', 'TypeScript', 'React', 'Vue.js', 'Angular',
+                                'Node.js', 'Express', 'Laravel', 'CodeIgniter', 'Django', 'Flask',
+                                'HTML', 'CSS', 'Bootstrap', 'Tailwind CSS', 'Docker', 'Git', 'AWS', 'Azure'
+                            ];
+
+                            // Ambil technologies yang sudah dipilih (untuk edit)
+                            $selectedTechs = [];
+                            if (!empty($project['technologies'])) {
+                                $selectedTechs = json_decode($project['technologies'], true);
+                                if (!is_array($selectedTechs)) {
+                                    $selectedTechs = [];
+                                }
+                            }
+                        ?>
+
+                        <div class="tech-stack-grid">
+                            <?php foreach ($availableTechs as $tech): ?>
+                                <label class="tech-item <?= in_array($tech, $selectedTechs) ? 'active' : '' ?>">
+                                    <input 
+                                        type="checkbox" 
+                                        name="technologies[]" 
+                                        value="<?= esc($tech) ?>"
+                                        <?= in_array($tech, $selectedTechs) ? 'checked' : '' ?>>
+                                    <span class="tech-label"><?= esc($tech) ?></span>
+                                </label>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+
                     <!-- Action Buttons -->
                     <div class="form-actions">
                         <button type="submit" class="btn-submit">
@@ -263,6 +302,23 @@
                 previewName.textContent = 'File terpilih: ' + fileInput.files[0].name;
                 previewName.style.display = 'block';
             }
+        });
+    </script>
+
+    <!-- Tech Stack Chip Toggle JS -->
+    <script>
+        document.querySelectorAll('.tech-item').forEach(function(label) {
+            label.addEventListener('click', function() {
+                const checkbox = this.querySelector('input[type="checkbox"]');
+                // Toggle checked state (click already does this, but we sync the visual)
+                setTimeout(() => {
+                    if (checkbox.checked) {
+                        this.classList.add('active');
+                    } else {
+                        this.classList.remove('active');
+                    }
+                }, 0);
+            });
         });
     </script>
 

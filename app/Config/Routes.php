@@ -8,7 +8,7 @@ $routes->get('/', 'Home::index');
 $routes->get('/about', 'About::index');
 $routes->get('/skills', 'Skills::index');
 $routes->get('/projects', 'Projects::index');
-$routes->get('/projects/(:num)', 'Projects::detail/$1');
+$routes->get('/projects/detail/(:num)', 'Projects::detail/$1'); // API endpoint for project detail
 $routes->match(['get', 'post'], '/contact', 'Contact::index');
 
 // Auth Routes
@@ -36,11 +36,11 @@ $routes->group('admin', ['filter' => 'adminAuth'], static function ($routes) {
     $routes->post('skills/update/(:num)', 'Admin\Skills::update/$1');
     $routes->get('skills/delete/(:num)', 'Admin\Skills::delete/$1');
 
-    // Admin Gambar/Gallery CRUD Routes
-    $routes->get('gallery', 'Admin\Gambar::index');
-    $routes->get('gallery/create', 'Admin\Gambar::create');
-    $routes->post('gallery/store', 'Admin\Gambar::store');
-    $routes->get('gallery/edit/(:num)', 'Admin\Gambar::edit/$1');
-    $routes->post('gallery/update/(:num)', 'Admin\Gambar::update/$1');
-    $routes->get('gallery/delete/(:num)', 'Admin\Gambar::delete/$1');
+    // Admin Certificate CRUD Routes
+    $routes->get('certificates', 'Admin\Certificate::index');
+    $routes->get('certificates/create', 'Admin\Certificate::create');
+    $routes->post('certificates/store', 'Admin\Certificate::store');
+    $routes->get('certificates/edit/(:num)', 'Admin\Certificate::edit/$1');
+    $routes->post('certificates/update/(:num)', 'Admin\Certificate::update/$1');
+    $routes->get('certificates/delete/(:num)', 'Admin\Certificate::delete/$1');
 });

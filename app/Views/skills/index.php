@@ -68,158 +68,69 @@
                 </div>
             </section>
 
-            <!-- Hard Skills Section -->
+            <!-- Hard Skills Section - Dynamic from Database -->
             <section class="hard-skills section-box">
-                <h2 class="section-title">Hard Skills</h2>
-                <div class="hard-skills-grid">
-                    <!-- Data Science -->
-                    <article class="skill-category">
-                        <h3><iconify-icon icon="fluent:data-area-24-regular" style="color: #0d6efd;"></iconify-icon> Data Science</h3>
-                        <div class="skill-list">
-                            <div class="skill-item">
-                                <div class="skill-info"><span>Python</span><span>90%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress blue" style="width: 90%;"></div>
+                <h2 class="section-title">Skills & Expertise</h2>
+                
+                <?php if (!empty($skillsGrouped) && count($skillsGrouped) > 0): ?>
+                    <div class="hard-skills-grid">
+                        <?php foreach ($skillsGrouped as $category => $skills): ?>
+                            <!-- <?= esc($category) ?> Category -->
+                            <article class="skill-category">
+                                <h3>
+                                    <iconify-icon icon="fluent:code-24-regular" style="color: #0d6efd;"></iconify-icon>
+                                    <?= esc($category) ?>
+                                </h3>
+                                <div class="skill-list">
+                                    <?php foreach ($skills as $skill): ?>
+                                        <div class="skill-item">
+                                            <div class="skill-info">
+                                                <span style="display:flex; align-items:center; gap:8px;">
+                                                    <?php if (!empty($skill['icon'])): ?>
+                                                        <iconify-icon icon="<?= esc($skill['icon']) ?>" style="font-size:20px;"></iconify-icon>
+                                                    <?php endif; ?>
+                                                    <?= esc($skill['name']) ?>
+                                                </span>
+                                                <?php 
+                                                    $percent = (int)($skill['level'] ?? 50);
+                                                    // Determine badge color based on percentage
+                                                    $badgeClass = 'level-intermediate';
+                                                    if ($percent >= 80) {
+                                                        $badgeClass = 'level-expert';
+                                                    } elseif ($percent >= 60) {
+                                                        $badgeClass = 'level-advanced';
+                                                    } elseif ($percent >= 40) {
+                                                        $badgeClass = 'level-intermediate';
+                                                    } else {
+                                                        $badgeClass = 'level-beginner';
+                                                    }
+                                                ?>
+                                                <span class="level-badge <?= $badgeClass ?>">
+                                                    <?= $percent ?>%
+                                                </span>
+                                            </div>
+                                            <div class="progress-bar">
+                                                <div class="progress blue" style="width: <?= $percent ?>%;"></div>
+                                            </div>
+                                            <?php if (!empty($skill['description'])): ?>
+                                                <small style="color:#666; font-size:12px; margin-top:4px; display:block;">
+                                                    <?= esc($skill['description']) ?>
+                                                </small>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endforeach; ?>
                                 </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>Pandas</span><span>70%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress blue" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>Numpy</span><span>70%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress blue" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>Mathplotlib</span><span>70%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress blue" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>SQL</span><span>70%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress blue" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Machine Learning -->
-                    <article class="skill-category">
-                        <h3><iconify-icon icon="fluent:clipboard-data-bar-24-regular" style="color: #dc3545;"></iconify-icon> Machine Learning</h3>
-                        <div class="skill-list">
-                            <div class="skill-item">
-                                <div class="skill-info"><span>Scikit-Learn</span><span>50%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress red" style="width: 50%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>TensorFlow</span><span>60%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress red" style="width: 60%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>PyTorch</span><span>70%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress red" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>XGBoost</span><span>50%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress red" style="width: 50%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>Deep Learning</span><span>40%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress red" style="width: 40%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Artificial Intelligence -->
-                    <article class="skill-category">
-                        <h3><iconify-icon icon="fluent:sparkle-24-regular" style="color: #ffc107;"></iconify-icon> Artificial Intelligence</h3>
-                        <div class="skill-list">
-                            <div class="skill-item">
-                                <div class="skill-info"><span>NLP</span><span>90%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress yellow-bar" style="width: 90%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>Transformers</span><span>70%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress yellow-bar" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>OpenCV</span><span>70%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress yellow-bar" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>Computer Vision</span><span>70%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress yellow-bar" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>Prompt Engineering</span><span>70%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress yellow-bar" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                    <!-- Web Development -->
-                    <article class="skill-category">
-                        <h3><iconify-icon icon="fluent:code-24-regular" style="color: #198754;"></iconify-icon> Web Development</h3>
-                        <div class="skill-list">
-                            <div class="skill-item">
-                                <div class="skill-info"><span>HTML</span><span>90%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress green-bar" style="width: 90%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>CSS</span><span>70%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress green-bar" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>JavaScript</span><span>70%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress green-bar" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>PHP</span><span>70%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress green-bar" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-info"><span>FastAPI</span><span>70%</span></div>
-                                <div class="progress-bar">
-                                    <div class="progress green-bar" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <!-- Empty State -->
+                    <div style="text-align:center; padding:60px 20px;">
+                        <iconify-icon icon="fluent:code-24-regular" style="font-size:80px; color:#ddd;"></iconify-icon>
+                        <h3 style="margin-top:20px; color:#666;">Belum Ada Skills</h3>
+                        <p style="color:#999;">Skills akan ditampilkan di sini setelah ditambahkan dari admin panel</p>
+                    </div>
+                <?php endif; ?>
             </section>
 
             <!-- Soft Skills Section -->
@@ -321,17 +232,69 @@
             <!-- Certificate Section -->
             <section class="certificate-section">
                 <h2 class="section-title text-center">Certificate</h2>
-                <div class="certificate-grid">
-                    <div class="certificate-card"></div>
-                    <div class="certificate-card"></div>
-                    <div class="certificate-card"></div>
-                    <div class="certificate-card"></div>
-                    <div class="certificate-card"></div>
-                    <div class="certificate-card"></div>
-                    <div class="certificate-card"></div>
-                    <div class="certificate-card"></div>
-                </div>
+                
+                <?php if (!empty($certificates) && count($certificates) > 0): ?>
+                    <div class="certificate-grid">
+                        <?php foreach ($certificates as $cert): ?>
+                            <div class="certificate-card" title="<?= esc($cert['title']) ?>" style="position:relative; overflow:hidden;">
+                                <?php if (!empty($cert['image']) && $cert['image'] !== 'default.jpg'): ?>
+                                    <img src="<?= base_url('uploads/certificates/' . $cert['image']) ?>" 
+                                         alt="<?= esc($cert['title']) ?>"
+                                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; transition: transform 0.3s;">
+                                <?php else: ?>
+                                    <div style="width:100%; height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; background:#f5f5f5; border-radius:12px; padding:20px; text-align:center;">
+                                        <iconify-icon icon="solar:diploma-bold" style="font-size:48px; color:#ccc; margin-bottom:12px;"></iconify-icon>
+                                        <strong style="font-size:14px; color:#666; margin-bottom:4px;"><?= esc($cert['title']) ?></strong>
+                                        <?php if (!empty($cert['issuer'])): ?>
+                                            <small style="font-size:12px; color:#999;"><?= esc($cert['issuer']) ?></small>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif; ?>
+                                
+                                <!-- Overlay with certificate info -->
+                                <div style="position:absolute; bottom:0; left:0; right:0; background:linear-gradient(to top, rgba(0,0,0,0.85), transparent); color:white; padding:16px 12px; border-radius:0 0 12px 12px; opacity:0; transition:opacity 0.3s;" class="cert-overlay">
+                                    <strong style="display:block; font-size:13px; margin-bottom:6px; font-weight:600;"><?= esc($cert['title']) ?></strong>
+                                    <?php if (!empty($cert['issuer'])): ?>
+                                        <small style="display:block; font-size:11px; opacity:0.95; margin-bottom:3px;">
+                                            <iconify-icon icon="solar:verified-check-bold" style="font-size:12px;"></iconify-icon>
+                                            <?= esc($cert['issuer']) ?>
+                                        </small>
+                                    <?php endif; ?>
+                                    <?php if (!empty($cert['issue_date'])): ?>
+                                        <small style="display:block; font-size:11px; opacity:0.9;">
+                                            <iconify-icon icon="solar:calendar-bold" style="font-size:12px;"></iconify-icon>
+                                            <?= date('M Y', strtotime($cert['issue_date'])) ?>
+                                        </small>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <div style="text-align:center; padding:60px 20px; color:#999;">
+                        <iconify-icon icon="solar:diploma-bold" style="font-size:80px; color:#ddd; display:block; margin:0 auto 20px;"></iconify-icon>
+                        <p style="font-size:16px; color:#666;">Belum ada certificate untuk ditampilkan</p>
+                    </div>
+                <?php endif; ?>
             </section>
+            
+            <style>
+                .certificate-card:hover .cert-overlay {
+                    opacity: 1 !important;
+                }
+                .certificate-card:hover img {
+                    transform: scale(1.05);
+                }
+                .certificate-card {
+                    cursor: pointer;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    transition: box-shadow 0.3s, transform 0.3s;
+                }
+                .certificate-card:hover {
+                    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+                    transform: translateY(-4px);
+                }
+            </style>
         </main>
 
         <!-- Footer -->

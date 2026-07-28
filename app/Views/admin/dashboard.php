@@ -49,9 +49,9 @@
                     <span>Skills</span>
                 </a>
 
-                <a href="<?= base_url('admin/gallery') ?>">
-                    <iconify-icon icon="solar:gallery-outline"></iconify-icon>
-                    <span>Gambar</span>
+                <a href="<?= base_url('admin/certificates') ?>">
+                    <iconify-icon icon="solar:diploma-verified-bold"></iconify-icon>
+                    <span>Certificate</span>
                 </a>
 
             </nav>
@@ -79,19 +79,21 @@
 
                 <div class="card stat-card">
                     <div>
-                        <h4>Total Pengunjung</h4>
-                        <h2 class="stat-number blue">12</h2>
+                        <h4>Total Skills</h4>
+                        <h2 class="stat-number blue"><?= $totalSkills ?? 0 ?></h2>
+                        <small style="color:#666; font-size:12px;"><?= $activeSkills ?? 0 ?> Aktif</small>
                     </div>
 
                     <div class="icon blue">
-                        <iconify-icon icon="solar:users-group-rounded-bold"></iconify-icon>
+                        <iconify-icon icon="solar:code-bold"></iconify-icon>
                     </div>
                 </div>
 
                 <div class="card stat-card">
                     <div>
                         <h4>Total Project</h4>
-                        <h2 class="stat-number red">12</h2>
+                        <h2 class="stat-number red"><?= $totalProjects ?? 0 ?></h2>
+                        <small style="color:#666; font-size:12px;"><?= $publishedProjects ?? 0 ?> Published</small>
                     </div>
 
                     <div class="icon red">
@@ -101,23 +103,25 @@
 
                 <div class="card stat-card">
                     <div>
-                        <h4>Total Skills</h4>
-                        <h2 class="stat-number yellow">5</h2>
+                        <h4>Total Certificate</h4>
+                        <h2 class="stat-number yellow"><?= $totalCertificates ?? 0 ?></h2>
+                        <small style="color:#666; font-size:12px;"><?= $shownCertificates ?? 0 ?> Ditampilkan</small>
                     </div>
 
                     <div class="icon yellow">
-                        <iconify-icon icon="solar:code-bold"></iconify-icon>
+                        <iconify-icon icon="solar:diploma-verified-bold"></iconify-icon>
                     </div>
                 </div>
 
                 <div class="card stat-card">
                     <div>
-                        <h4>Total Gambar</h4>
-                        <h2 class="stat-number green">5</h2>
+                        <h4>Kategori Skills</h4>
+                        <h2 class="stat-number green"><?= $skillCategories ?? 0 ?></h2>
+                        <small style="color:#666; font-size:12px;">Total Kategori</small>
                     </div>
 
                     <div class="icon green">
-                        <iconify-icon icon="solar:gallery-bold"></iconify-icon>
+                        <iconify-icon icon="solar:widget-5-bold"></iconify-icon>
                     </div>
                 </div>
 
@@ -154,22 +158,22 @@
 
                             <li>
                                 <span class="dot blue"></span>
-                                Pengunjung
+                                Skills: <strong><?= $totalSkills ?? 0 ?></strong>
                             </li>
 
                             <li>
                                 <span class="dot red"></span>
-                                Project
+                                Project: <strong><?= $totalProjects ?? 0 ?></strong>
                             </li>
 
                             <li>
                                 <span class="dot yellow"></span>
-                                Skills
+                                Certificate: <strong><?= $totalCertificates ?? 0 ?></strong>
                             </li>
 
                             <li>
                                 <span class="dot green"></span>
-                                Gambar
+                                Published: <strong><?= $publishedProjects ?? 0 ?></strong>
                             </li>
 
                         </ul>
@@ -183,75 +187,43 @@
             <!-- Bottom -->
             <section class="bottom-grid">
 
-                <!-- Project -->
                 <div class="card latest-project">
 
                     <div class="card-header">
                         <h3>Project Terbaru</h3>
+                        <a href="<?= base_url('admin/project') ?>" style="font-size:14px; color:#007BFF;">Lihat Semua →</a>
                     </div>
 
                     <div class="project-list">
+                        <?php if (!empty($recentProjects)): ?>
+                            <?php foreach ($recentProjects as $project): ?>
+                                <div class="project-item">
+                                    <?php if (!empty($project['thumbnail'])): ?>
+                                        <img src="<?= base_url('uploads/projects/' . $project['thumbnail']) ?>" alt="<?= esc($project['title']) ?>" class="thumb" style="width:60px; height:60px; object-fit:cover; border-radius:8px;">
+                                    <?php else: ?>
+                                        <div class="thumb"></div>
+                                    <?php endif; ?>
 
-                        <div class="project-item">
+                                    <div class="project-info">
+                                        <h4><?= esc($project['title']) ?></h4>
+                                        <small><?= !empty($project['created_at']) ? date('d M Y', strtotime($project['created_at'])) : '-' ?></small>
+                                    </div>
 
-                            <div class="thumb"></div>
-
-                            <div class="project-info">
-                                <h4>Portofolio Website</h4>
-                                <small>22 Mei 2024</small>
+                                    <?php 
+                                        $statusClass = strtolower($project['status'] ?? 'draft') === 'published' ? 'success' : 'warning';
+                                        $statusText = ucfirst($project['status'] ?? 'Draft');
+                                    ?>
+                                    <span class="badge <?= $statusClass ?>">
+                                        <?= $statusText ?>
+                                    </span>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <div style="text-align:center; padding:40px 20px; color:#999;">
+                                <iconify-icon icon="solar:folder-bold" style="font-size:48px; color:#ddd;"></iconify-icon>
+                                <p style="margin-top:12px;">Belum ada project</p>
                             </div>
-
-                            <span class="badge success">
-                                Published
-                            </span>
-
-                        </div>
-
-                        <div class="project-item">
-
-                            <div class="thumb"></div>
-
-                            <div class="project-info">
-                                <h4>Portofolio Website</h4>
-                                <small>22 Mei 2024</small>
-                            </div>
-
-                            <span class="badge warning">
-                                Draft
-                            </span>
-
-                        </div>
-
-                        <div class="project-item">
-
-                            <div class="thumb"></div>
-
-                            <div class="project-info">
-                                <h4>Portofolio Website</h4>
-                                <small>22 Mei 2024</small>
-                            </div>
-
-                            <span class="badge success">
-                                Published
-                            </span>
-
-                        </div>
-
-                        <div class="project-item">
-
-                            <div class="thumb"></div>
-
-                            <div class="project-info">
-                                <h4>Portofolio Website</h4>
-                                <small>22 Mei 2024</small>
-                            </div>
-
-                            <span class="badge success">
-                                Published
-                            </span>
-
-                        </div>
-
+                        <?php endif; ?>
                     </div>
 
                 </div>
@@ -264,62 +236,59 @@
                     </div>
 
                     <div class="activity-list">
+                        
+                        <!-- Recent Projects -->
+                        <?php if (!empty($recentProjects)): ?>
+                            <?php foreach (array_slice($recentProjects, 0, 2) as $project): ?>
+                                <div class="activity-item">
+                                    <div class="activity-icon red">
+                                        <iconify-icon icon="solar:folder-bold"></iconify-icon>
+                                    </div>
+                                    <div class="activity-info">
+                                        <h4>Project "<?= esc($project['title']) ?>" ditambahkan</h4>
+                                    </div>
+                                    <small><?= !empty($project['created_at']) ? date('d M Y, H:i', strtotime($project['created_at'])) : '-' ?></small>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
 
-                        <div class="activity-item">
+                        <!-- Recent Skills -->
+                        <?php if (!empty($recentSkills)): ?>
+                            <?php foreach (array_slice($recentSkills, 0, 1) as $skill): ?>
+                                <div class="activity-item">
+                                    <div class="activity-icon yellow">
+                                        <iconify-icon icon="solar:code-bold"></iconify-icon>
+                                    </div>
+                                    <div class="activity-info">
+                                        <h4>Skill "<?= esc($skill['name']) ?>" ditambahkan</h4>
+                                    </div>
+                                    <small><?= !empty($skill['created_at']) ? date('d M Y, H:i', strtotime($skill['created_at'])) : '-' ?></small>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
 
-                            <div class="activity-icon red">
-                                <iconify-icon icon="solar:folder-bold"></iconify-icon>
+                        <!-- Recent Certificates -->
+                        <?php if (!empty($recentCertificates)): ?>
+                            <?php foreach (array_slice($recentCertificates, 0, 1) as $cert): ?>
+                                <div class="activity-item">
+                                    <div class="activity-icon green">
+                                        <iconify-icon icon="solar:diploma-verified-bold"></iconify-icon>
+                                    </div>
+                                    <div class="activity-info">
+                                        <h4>Certificate "<?= esc($cert['title']) ?>" ditambahkan</h4>
+                                    </div>
+                                    <small><?= !empty($cert['created_at']) ? date('d M Y, H:i', strtotime($cert['created_at'])) : '-' ?></small>
+                                </div>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+
+                        <!-- Empty State -->
+                        <?php if (empty($recentProjects) && empty($recentSkills) && empty($recentCertificates)): ?>
+                            <div style="text-align:center; padding:40px 20px; color:#999;">
+                                <iconify-icon icon="solar:bell-bold" style="font-size:48px; color:#ddd;"></iconify-icon>
+                                <p style="margin-top:12px;">Belum ada aktivitas</p>
                             </div>
-
-                            <div class="activity-info">
-                                <h4>Project "Portofolio Website" Diperbaharui</h4>
-                            </div>
-
-                            <small>22 Mei 2026, 10:30</small>
-
-                        </div>
-
-                        <div class="activity-item">
-
-                            <div class="activity-icon yellow">
-                                <iconify-icon icon="solar:code-bold"></iconify-icon>
-                            </div>
-
-                            <div class="activity-info">
-                                <h4>Skills "Portofolio Website" Ditambahkan</h4>
-                            </div>
-
-                            <small>22 Mei 2026, 10:30</small>
-
-                        </div>
-
-                        <div class="activity-item">
-
-                            <div class="activity-icon green">
-                                <iconify-icon icon="solar:gallery-bold"></iconify-icon>
-                            </div>
-
-                            <div class="activity-info">
-                                <h4>Gambar "Portofolio Website" Ditambahkan</h4>
-                            </div>
-
-                            <small>22 Mei 2026, 10:30</small>
-
-                        </div>
-
-                        <div class="activity-item">
-
-                            <div class="activity-icon green">
-                                <iconify-icon icon="solar:gallery-bold"></iconify-icon>
-                            </div>
-
-                            <div class="activity-info">
-                                <h4>Gambar "Portofolio Website" Ditambahkan</h4>
-                            </div>
-
-                            <small>22 Mei 2026, 10:30</small>
-
-                        </div>
+                        <?php endif; ?>
 
                     </div>
 

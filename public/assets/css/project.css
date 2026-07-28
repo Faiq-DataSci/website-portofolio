@@ -429,3 +429,156 @@ footer {
     transform: translateY(-4px);
     box-shadow: 0 12px 24px rgba(0,0,0,0.05);
 }
+
+/* Modal Close Button */
+.modal-close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 28px;
+    color: #333;
+    z-index: 10;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.modal-close-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Modal Action Buttons */
+.modal-action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.github-btn {
+    background: #24292e;
+    color: #fff;
+    border-color: #24292e;
+}
+
+.github-btn:hover {
+    background: #1a1f23;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(36, 41, 46, 0.3);
+}
+
+.demo-btn {
+    background: #28A745;
+    color: #fff;
+    border-color: #28A745;
+}
+
+.demo-btn:hover {
+    background: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+/* Modal Meta (Category & Date) */
+.modal-meta {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Modal Text Formatting */
+.modal-text p {
+    margin-bottom: 16px;
+    line-height: 1.8;
+}
+
+.modal-text p:last-child {
+    margin-bottom: 0;
+}
+
+/* Back Button Enhancement */
+.back-btn {
+    color: var(--color-red);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+    background: rgba(255, 0, 0, 0.05);
+    transform: translateX(-4px);
+}
+
+/* Loading & Error States */
+#modalLoading iconify-icon,
+#modalError iconify-icon {
+    display: block;
+}
+
+/* Responsive Modal */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        max-height: 95vh;
+    }
+
+    .modal-body {
+        padding: 24px;
+    }
+
+    .modal-title {
+        font-size: 24px;
+    }
+
+    .modal-header-actions {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .modal-action-buttons {
+        width: 100%;
+    }
+
+    .action-btn {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .modal-image {
+        height: 200px;
+    }
+}

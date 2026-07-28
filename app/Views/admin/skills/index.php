@@ -46,9 +46,9 @@
                     <span>Skills</span>
                 </a>
 
-                <a href="<?= base_url('admin/gallery') ?>">
-                    <iconify-icon icon="solar:gallery-outline"></iconify-icon>
-                    <span>Gambar</span>
+                <a href="<?= base_url('admin/certificates') ?>">
+                    <iconify-icon icon="solar:diploma-verified-bold"></iconify-icon>
+                    <span>Certificate</span>
                 </a>
 
             </nav>
@@ -220,7 +220,7 @@
                                     </td>
 
                                     <td>
-                                        <?php if (!empty($item['status']) && $item['status'] == 1): ?>
+                                        <?php if (!empty($item['status']) && strtolower($item['status']) === 'active'): ?>
                                             <span class="badge-green">Aktif</span>
                                         <?php else: ?>
                                             <span class="badge-gray">Nonaktif</span>

@@ -10,7 +10,7 @@ class ProjectModel extends Model
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $allowedFields    = ['title', 'description', 'thumbnail', 'github', 'demo', 'category', 'status', 'created_at', 'updated_at'];
+    protected $allowedFields    = ['title', 'description', 'technologies', 'thumbnail', 'github', 'demo', 'category', 'status', 'created_at', 'updated_at'];
     protected $useTimestamps    = true;
 
     public function getProjects()

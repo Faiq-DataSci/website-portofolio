@@ -20,9 +20,12 @@ class Projects extends BaseController
             // Hanya ambil project yang statusnya 'published'
             $projects = $this->projectModel
                 ->where('status', 'published')
-                ->orderBy('id', 'DESC')
+                ->orderBy('created_at', 'DESC')
                 ->findAll();
+            
+            log_message('info', 'Projects loaded: ' . count($projects) . ' published projects found.');
         } catch (\Throwable $e) {
+            log_message('error', 'Failed to load projects: ' . $e->getMessage());
             $projects = [];
         }
 
@@ -31,5 +34,49 @@ class Projects extends BaseController
             'projects' => $projects,
         ];
         return view('projects/index', $data);
+    }
+
+    public function detail($id)
+    {
+        try {
+            $project = $this->projectModel->find($id);
+            
+            if (!$project) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Project not found'
+                ])->setStatusCode(404);
+            }
+
+            // Only show published projects on frontend
+            if (strtolower($project['status']) !== 'published') {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'message' => 'Project not available'
+                ])->setStatusCode(404);
+            }
+
+            return $this->response->setJSON([
+                'success' => true,
+                'data' => [
+                    'id'           => $project['id'],
+                    'title'        => $project['title'],
+                    'description'  => $project['description'],
+                    'technologies' => !empty($project['technologies']) ? json_decode($project['technologies'], true) : [],
+                    'thumbnail'    => $project['thumbnail'] ? base_url('uploads/projects/' . $project['thumbnail']) : null,
+                    'github'       => $project['github'],
+                    'demo'         => $project['demo'],
+                    'category'     => $project['category'],
+                    'status'       => $project['status'],
+                    'created_at'   => $project['created_at'],
+                ]
+            ]);
+        } catch (\Throwable $e) {
+            log_message('error', 'Failed to load project detail: ' . $e->getMessage());
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Internal server error'
+            ])->setStatusCode(500);
+        }
     }
 }

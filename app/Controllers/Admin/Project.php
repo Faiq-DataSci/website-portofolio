@@ -18,20 +18,10 @@ class Project extends BaseController
     {
         $projects = [];
         try {
-            $projects = $this->projectModel->orderBy('id', 'DESC')->findAll();
+            $projects = $this->projectModel->orderBy('created_at', 'DESC')->findAll();
         } catch (\Throwable $e) {
+            log_message('error', 'Failed to load projects in admin: ' . $e->getMessage());
             $projects = [];
-        }
-
-        // Fallback mock data if DB table doesn't have rows yet
-        if (empty($projects)) {
-            $projects = [
-                ['id' => 1, 'title' => 'Portofolio Website', 'description' => 'Website portofolio pribadi dengan desain moderen', 'category' => 'Web Development', 'status' => 'published', 'created_at' => '2026-05-22', 'github' => 'https://github.com/'],
-                ['id' => 2, 'title' => 'Portofolio Website', 'description' => 'Website portofolio pribadi dengan desain moderen', 'category' => 'Web Development', 'status' => 'published', 'created_at' => '2026-05-22', 'github' => 'https://github.com/'],
-                ['id' => 3, 'title' => 'Portofolio Website', 'description' => 'Website portofolio pribadi dengan desain moderen', 'category' => 'Web Development', 'status' => 'published', 'created_at' => '2026-05-22', 'github' => 'https://github.com/'],
-                ['id' => 4, 'title' => 'Portofolio Website', 'description' => 'Website portofolio pribadi dengan desain moderen', 'category' => 'Web Development', 'status' => 'published', 'created_at' => '2026-05-22', 'github' => 'https://github.com/'],
-                ['id' => 5, 'title' => 'Portofolio Website', 'description' => 'Website portofolio pribadi dengan desain moderen', 'category' => 'Web Development', 'status' => 'published', 'created_at' => '2026-05-22', 'github' => 'https://github.com/'],
-            ];
         }
 
         // Calculate statistics
@@ -75,40 +65,68 @@ class Project extends BaseController
 
     public function store()
     {
-        $title       = trim($this->request->getPost('title') ?? '');
+        // Validasi input
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'title'       => 'required|min_length[3]|max_length[255]',
+            'description' => 'permit_empty|max_length[1000]',
+            'github'      => 'permit_empty|valid_url_strict',
+            'demo'        => 'permit_empty|valid_url_strict',
+            'category'    => 'required',
+            'status'      => 'required|in_list[published,draft,archived]',
+            'thumbnail'   => 'permit_empty|uploaded[thumbnail]|max_size[thumbnail,2048]|is_image[thumbnail]|mime_in[thumbnail,image/jpg,image/jpeg,image/png]',
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('error', implode('<br>', $validation->getErrors()));
+        }
+
+        $title       = trim($this->request->getPost('title'));
         $description = trim($this->request->getPost('description') ?? '');
         $github      = trim($this->request->getPost('github') ?? '');
         $demo        = trim($this->request->getPost('demo') ?? '');
-        $category    = trim($this->request->getPost('category') ?? 'Web Development');
-        $status      = trim($this->request->getPost('status') ?? 'published');
+        $category    = trim($this->request->getPost('category'));
+        $status      = trim($this->request->getPost('status'));
 
-        if (empty($title)) {
-            return redirect()->back()->withInput()->with('error', 'Judul project wajib diisi.');
+        // Handle technologies (array of selected tech names)
+        $technologiesRaw = $this->request->getPost('technologies');
+        $technologiesJson = null;
+        if (!empty($technologiesRaw) && is_array($technologiesRaw)) {
+            $technologiesJson = json_encode(array_values(array_filter($technologiesRaw)));
         }
 
         // Handle file upload
         $thumbnailName = null;
         $file = $this->request->getFile('thumbnail');
+        
         if ($file && $file->isValid() && !$file->hasMoved()) {
+            // Ensure upload directory exists
+            $uploadPath = FCPATH . 'uploads/projects';
+            if (!is_dir($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+            
             $thumbnailName = $file->getRandomName();
-            $file->move(FCPATH . 'uploads/projects', $thumbnailName);
+            $file->move($uploadPath, $thumbnailName);
         }
 
         $saveData = [
-            'title'       => $title,
-            'description' => $description,
-            'github'      => $github,
-            'demo'        => $demo,
-            'category'    => $category,
-            'status'      => $status,
-            'thumbnail'   => $thumbnailName,
+            'title'        => $title,
+            'description'  => $description,
+            'technologies' => $technologiesJson,
+            'github'       => $github,
+            'demo'         => $demo,
+            'category'     => $category,
+            'status'       => $status,
+            'thumbnail'    => $thumbnailName,
         ];
 
         try {
             $this->projectModel->insert($saveData);
-            return redirect()->to(base_url('admin/project'))->with('success', 'Project berhasil ditambahkan!');
+            return redirect()->to(base_url('admin/project'))->with('success', 'Project "' . esc($title) . '" berhasil ditambahkan!');
         } catch (\Throwable $e) {
-            return redirect()->to(base_url('admin/project'))->with('success', 'Project "' . esc($title) . '" berhasil disimpan!');
+            log_message('error', 'Failed to insert project: ' . $e->getMessage());
+            return redirect()->to(base_url('admin/project'))->with('error', 'Gagal menyimpan project. Silakan coba lagi.');
         }
     }
 
@@ -118,20 +136,12 @@ class Project extends BaseController
         try {
             $project = $this->projectModel->find($id);
         } catch (\Throwable $e) {
+            log_message('error', 'Failed to find project: ' . $e->getMessage());
             $project = null;
         }
 
         if (!$project) {
-            // Mock fallback
-            $project = [
-                'id'          => $id,
-                'title'       => 'Portofolio Website',
-                'description' => 'Website portofolio pribadi dengan desain moderen',
-                'github'      => 'https://github.com/',
-                'demo'        => '',
-                'category'    => 'Web Development',
-                'status'      => 'published',
-            ];
+            return redirect()->to(base_url('admin/project'))->with('error', 'Project tidak ditemukan.');
         }
 
         $data = [
@@ -145,51 +155,106 @@ class Project extends BaseController
 
     public function update($id)
     {
-        $title       = trim($this->request->getPost('title') ?? '');
+        // Validasi input
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'title'       => 'required|min_length[3]|max_length[255]',
+            'description' => 'permit_empty|max_length[1000]',
+            'github'      => 'permit_empty|valid_url_strict',
+            'demo'        => 'permit_empty|valid_url_strict',
+            'category'    => 'required',
+            'status'      => 'required|in_list[published,draft,archived]',
+            'thumbnail'   => 'permit_empty|uploaded[thumbnail]|max_size[thumbnail,2048]|is_image[thumbnail]|mime_in[thumbnail,image/jpg,image/jpeg,image/png]',
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            return redirect()->back()->withInput()->with('error', implode('<br>', $validation->getErrors()));
+        }
+
+        $title       = trim($this->request->getPost('title'));
         $description = trim($this->request->getPost('description') ?? '');
         $github      = trim($this->request->getPost('github') ?? '');
         $demo        = trim($this->request->getPost('demo') ?? '');
-        $category    = trim($this->request->getPost('category') ?? 'Web Development');
-        $status      = trim($this->request->getPost('status') ?? 'published');
+        $category    = trim($this->request->getPost('category'));
+        $status      = trim($this->request->getPost('status'));
 
-        if (empty($title)) {
-            return redirect()->back()->withInput()->with('error', 'Judul project wajib diisi.');
+        // Handle technologies (array of selected tech names)
+        $technologiesRaw  = $this->request->getPost('technologies');
+        $technologiesJson = null;
+        if (!empty($technologiesRaw) && is_array($technologiesRaw)) {
+            $technologiesJson = json_encode(array_values(array_filter($technologiesRaw)));
         }
 
         $saveData = [
-            'title'       => $title,
-            'description' => $description,
-            'github'      => $github,
-            'demo'        => $demo,
-            'category'    => $category,
-            'status'      => $status,
+            'title'        => $title,
+            'description'  => $description,
+            'technologies' => $technologiesJson,
+            'github'       => $github,
+            'demo'         => $demo,
+            'category'     => $category,
+            'status'       => $status,
         ];
 
         // Handle thumbnail upload if provided
         $file = $this->request->getFile('thumbnail');
         if ($file && $file->isValid() && !$file->hasMoved()) {
+            // Ensure upload directory exists
+            $uploadPath = FCPATH . 'uploads/projects';
+            if (!is_dir($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+            
+            // Delete old thumbnail if exists
+            try {
+                $oldProject = $this->projectModel->find($id);
+                if ($oldProject && !empty($oldProject['thumbnail'])) {
+                    $oldFile = $uploadPath . '/' . $oldProject['thumbnail'];
+                    if (file_exists($oldFile)) {
+                        unlink($oldFile);
+                    }
+                }
+            } catch (\Throwable $e) {
+                log_message('warning', 'Failed to delete old thumbnail: ' . $e->getMessage());
+            }
+            
             $thumbnailName = $file->getRandomName();
-            $file->move(FCPATH . 'uploads/projects', $thumbnailName);
+            $file->move($uploadPath, $thumbnailName);
             $saveData['thumbnail'] = $thumbnailName;
         }
 
         try {
             $this->projectModel->update($id, $saveData);
+            return redirect()->to(base_url('admin/project'))->with('success', 'Project "' . esc($title) . '" berhasil diperbarui!');
         } catch (\Throwable $e) {
-            // Ignore DB error
+            log_message('error', 'Failed to update project: ' . $e->getMessage());
+            return redirect()->to(base_url('admin/project'))->with('error', 'Gagal memperbarui project. Silakan coba lagi.');
         }
-
-        return redirect()->to(base_url('admin/project'))->with('success', 'Project "' . esc($title) . '" berhasil diperbarui!');
     }
 
     public function delete($id)
     {
         try {
-            $this->projectModel->delete($id);
+            // Get project data first to delete thumbnail file
+            $project = $this->projectModel->find($id);
+            
+            if ($project) {
+                // Delete thumbnail file if exists
+                if (!empty($project['thumbnail'])) {
+                    $thumbnailPath = FCPATH . 'uploads/projects/' . $project['thumbnail'];
+                    if (file_exists($thumbnailPath)) {
+                        unlink($thumbnailPath);
+                    }
+                }
+                
+                // Delete project record
+                $this->projectModel->delete($id);
+                return redirect()->to(base_url('admin/project'))->with('success', 'Project "' . esc($project['title']) . '" berhasil dihapus!');
+            } else {
+                return redirect()->to(base_url('admin/project'))->with('error', 'Project tidak ditemukan.');
+            }
         } catch (\Throwable $e) {
-            // Ignore DB error
+            log_message('error', 'Failed to delete project: ' . $e->getMessage());
+            return redirect()->to(base_url('admin/project'))->with('error', 'Gagal menghapus project. Silakan coba lagi.');
         }
-
-        return redirect()->to(base_url('admin/project'))->with('success', 'Project berhasil dihapus!');
     }
 }
