@@ -7,7 +7,7 @@
     <title><?= esc($title ?? 'Faiq | Admin Projects') ?></title>
 
     <!-- Link CSS - Project -->
-    <link rel="stylesheet" href="<?= base_url('assets/css/admin/project.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/admin/project.css?v=2.0') ?>">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -232,11 +232,19 @@
                                     </td>
 
                                     <td>
-
-                                        <span class="badge-blue" style="background:#E3F2FD; color:#1976D2; padding:4px 14px; border-radius:20px; font-size:12px; font-weight:500;">
-                                            <?= esc($item['category'] ?? 'Web Development') ?>
+                                        <?php 
+                                            $category = $item['category'] ?? 'Web Development';
+                                            // Determine gradient class based on category
+                                            $categoryClass = 'category-default';
+                                            if ($category === 'Web Development') $categoryClass = 'category-web';
+                                            elseif ($category === 'Machine Learning') $categoryClass = 'category-ml';
+                                            elseif ($category === 'Data Science') $categoryClass = 'category-ds';
+                                            elseif ($category === 'Mobile App') $categoryClass = 'category-mobile';
+                                            elseif ($category === 'Desktop App') $categoryClass = 'category-desktop';
+                                        ?>
+                                        <span class="badge-category <?= $categoryClass ?>">
+                                            <?= esc($category) ?>
                                         </span>
-
                                     </td>
 
                                     <td>

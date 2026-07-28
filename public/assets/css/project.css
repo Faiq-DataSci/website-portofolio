@@ -125,25 +125,125 @@ header {
 
 .filter-btn {
     border: none;
-    padding: 8px 24px;
+    padding: 10px 26px;
     border-radius: 50px;
     color: var(--text-light);
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     font-family: var(--font-main);
-    transition: opacity 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.filter-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+}
+
+.filter-btn:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
 .filter-btn:hover {
-    opacity: 0.8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
-.btn-all { background-color: var(--color-red); }
-.btn-data-science { background-color: var(--color-blue); }
-.btn-python { background-color: var(--color-yellow); color: var(--text-dark); }
-.btn-ml { background-color: var(--color-green); }
-.btn-ai { background-color: var(--color-purple); }
+.filter-btn:active {
+    transform: translateY(0);
+}
+
+/* Filter Button Colors - Colorful & Vibrant */
+.filter-btn[data-filter="all"] {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.filter-btn[data-filter="all"]:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #5f3b8a 100%);
+}
+
+.filter-btn[data-filter="all"].active {
+    background: linear-gradient(135deg, #4a56b8 0%, #4d2f72 100%);
+    box-shadow: 0 4px 20px rgba(102, 126, 234, 0.5);
+}
+
+.filter-btn[data-filter="Web Development"] {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.filter-btn[data-filter="Web Development"]:hover {
+    background: linear-gradient(135deg, #e67ee6 0%, #e04057 100%);
+}
+
+.filter-btn[data-filter="Web Development"].active {
+    background: linear-gradient(135deg, #d665d1 0%, #cc2a42 100%);
+    box-shadow: 0 4px 20px rgba(240, 147, 251, 0.5);
+}
+
+.filter-btn[data-filter="Machine Learning"] {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.filter-btn[data-filter="Machine Learning"]:hover {
+    background: linear-gradient(135deg, #3a95e5 0%, #00d9e5 100%);
+}
+
+.filter-btn[data-filter="Machine Learning"].active {
+    background: linear-gradient(135deg, #2580cc 0%, #00c0cc 100%);
+    box-shadow: 0 4px 20px rgba(79, 172, 254, 0.5);
+}
+
+.filter-btn[data-filter="Data Science"] {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.filter-btn[data-filter="Data Science"]:hover {
+    background: linear-gradient(135deg, #e85a84 0%, #ecc724 100%);
+}
+
+.filter-btn[data-filter="Data Science"].active {
+    background: linear-gradient(135deg, #d5446e 0%, #d9ad08 100%);
+    box-shadow: 0 4px 20px rgba(250, 112, 154, 0.5);
+}
+
+.filter-btn[data-filter="Mobile App"] {
+    background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+}
+
+.filter-btn[data-filter="Mobile App"]:hover {
+    background: linear-gradient(135deg, #24b6b7 0%, #280652 100%);
+}
+
+.filter-btn[data-filter="Mobile App"].active {
+    background: linear-gradient(135deg, #1a9d9e 0%, #1d0440 100%);
+    box-shadow: 0 4px 20px rgba(48, 207, 208, 0.5);
+}
+
+.filter-btn[data-filter="Desktop App"] {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: var(--text-dark);
+}
+
+.filter-btn[data-filter="Desktop App"]:hover {
+    background: linear-gradient(135deg, #8ed4d1 0%, #f5b8ca 100%);
+}
+
+.filter-btn[data-filter="Desktop App"].active {
+    background: linear-gradient(135deg, #74bbb8 0%, #ec9ab1 100%);
+    box-shadow: 0 4px 20px rgba(168, 237, 234, 0.5);
+}
 
 /* Project Grid */
 .project-grid {

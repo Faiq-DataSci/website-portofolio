@@ -7,7 +7,48 @@
     <title><?= esc($title ?? 'Tambah Project | Admin') ?></title>
 
     <!-- Link CSS - Tambah Project -->
-    <link rel="stylesheet" href="<?= base_url('assets/css/admin/tambah_project.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/admin/tambah_project.css?v=2.0') ?>">
+
+    <!-- Inline Style for Category Preview with Gradient -->
+    <style>
+        /* Category Preview Badge */
+        .category-preview {
+            margin-top: 12px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            text-align: center;
+            display: none;
+            transition: all 0.3s ease;
+        }
+
+        .category-preview.active {
+            display: block;
+        }
+
+        .category-preview.cat-web {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .category-preview.cat-ml {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .category-preview.cat-ds {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .category-preview.cat-mobile {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+        }
+
+        .category-preview.cat-desktop {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+        }
+    </style>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -186,6 +227,19 @@
                                         <option value="Desktop App" <?= $currentCategory == 'Desktop App' ? 'selected' : '' ?>>Desktop App</option>
                                     </select>
                                     <iconify-icon icon="solar:alt-arrow-down-outline" class="select-icon"></iconify-icon>
+                                </div>
+                                <!-- Category Preview Badge -->
+                                <div id="categoryPreview" class="category-preview <?php 
+                                    if (!empty($currentCategory)) {
+                                        echo 'active ';
+                                        if ($currentCategory == 'Web Development') echo 'cat-web';
+                                        elseif ($currentCategory == 'Machine Learning') echo 'cat-ml';
+                                        elseif ($currentCategory == 'Data Science') echo 'cat-ds';
+                                        elseif ($currentCategory == 'Mobile App') echo 'cat-mobile';
+                                        elseif ($currentCategory == 'Desktop App') echo 'cat-desktop';
+                                    }
+                                ?>">
+                                    <?= esc($currentCategory ?? 'Preview kategori akan muncul di sini') ?>
                                 </div>
                                 <small>Masukan kategori yang anda inginkan</small>
                             </div>

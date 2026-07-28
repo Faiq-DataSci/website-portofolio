@@ -7,7 +7,30 @@
     <title><?= esc($title ?? 'Faiq | Projects') ?></title>
 
     <!-- Link CSS - Project -->
-    <link rel="stylesheet" href="<?= base_url('assets/css/project.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/project.css?v=2.0') ?>">
+
+    <!-- Inline Style untuk Force Gradient Colors (Temporary) -->
+    <style>
+        .filter-btn[data-filter="all"] {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        }
+        .filter-btn[data-filter="Web Development"] {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%) !important;
+        }
+        .filter-btn[data-filter="Machine Learning"] {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+        }
+        .filter-btn[data-filter="Data Science"] {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%) !important;
+        }
+        .filter-btn[data-filter="Mobile App"] {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%) !important;
+        }
+        .filter-btn[data-filter="Desktop App"] {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%) !important;
+            color: #000000 !important;
+        }
+    </style>
 
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,11 +71,12 @@
 
         <!-- Filter -->
         <section class="filters-section">
-            <button class="filter-btn btn-all">All</button>
-            <button class="filter-btn btn-data-science">Data Science</button>
-            <button class="filter-btn btn-python">Python</button>
-            <button class="filter-btn btn-ml">Machine Learning</button>
-            <button class="filter-btn btn-ai">AI</button>
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="Web Development">Web Development</button>
+            <button class="filter-btn" data-filter="Machine Learning">Machine Learning</button>
+            <button class="filter-btn" data-filter="Data Science">Data Science</button>
+            <button class="filter-btn" data-filter="Mobile App">Mobile App</button>
+            <button class="filter-btn" data-filter="Desktop App">Desktop App</button>
         </section>
 
         <!-- project list -->
@@ -215,7 +239,9 @@
             document.getElementById('modalTitle').textContent = project.title || 'Untitled Project';
 
             // Update category badge in meta
-            document.getElementById('modalCategory').textContent = project.category || 'General';
+            const categoryBadge = document.getElementById('modalCategory');
+            categoryBadge.textContent = project.category || 'General';
+            categoryBadge.setAttribute('data-category', project.category || 'General');
 
             // Update date
             const date = project.created_at ? new Date(project.created_at).toLocaleDateString('id-ID', {
@@ -312,6 +338,50 @@
             document.querySelectorAll('.card-links a').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.stopPropagation();
+                });
+            });
+        });
+
+        // ========== PROJECT FILTER FUNCTIONALITY ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    // Get selected filter
+                    const filterValue = this.getAttribute('data-filter');
+
+                    // Filter project cards
+                    projectCards.forEach(card => {
+                        const category = card.getAttribute('data-category');
+
+                        if (filterValue === 'all') {
+                            // Show all cards
+                            card.style.display = 'block';
+                        } else {
+                            // Show only matching category
+                            if (category === filterValue) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+
+                    // Check if there are any visible cards
+                    const visibleCards = Array.from(projectCards).filter(card => 
+                        card.style.display !== 'none'
+                    );
+
+                    // Handle empty state (optional enhancement)
+                    // You can add custom empty state handling here if needed
                 });
             });
         });

@@ -221,6 +221,28 @@
     letter-spacing: 0.3px;
 }
 
+/* Category Badge Gradient Colors */
+.meta-badge[data-category="Web Development"] {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.meta-badge[data-category="Machine Learning"] {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.meta-badge[data-category="Data Science"] {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.meta-badge[data-category="Mobile App"] {
+    background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+}
+
+.meta-badge[data-category="Desktop App"] {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: #333;
+}
+
 .meta-divider {
     color: #ddd;
     font-size: 16px;

@@ -1,0 +1,99 @@
+#########################
+# CodeIgniter 4
+#########################
+
+# Environment file
+.env
+
+# Writable directories - keep structure, ignore content
+writable/cache/*
+!writable/cache/index.html
+
+writable/logs/*
+!writable/logs/index.html
+
+writable/session/*
+!writable/session/index.html
+
+writable/uploads/*
+!writable/uploads/index.html
+
+writable/debugbar/*
+
+# Composer
+vendor/
+
+#########################
+# Operating System Files
+#########################
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+
+#########################
+# IDE Files
+#########################
+
+# PhpStorm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# NetBeans
+nbproject/
+build/
+nbbuild/
+dist/
+nbdist/
+
+#########################
+# Other
+#########################
+
+# Node modules (jika menggunakan npm)
+node_modules/
+
+# Build files
+*.log
+*.sql
+*.sqlite
+
+# Backup files
+*.bak
+*.swp
+*.swo
+*~
+
+# PHPUnit
+.phpunit.result.cache

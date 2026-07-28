@@ -443,6 +443,55 @@ td:last-child {
     font-weight: 500;
 }
 
+/* Category Badges with Gradient Colors */
+.badge-category {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.badge-category:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Default Category */
+.badge-category.category-default {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Web Development */
+.badge-category.category-web {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+/* Machine Learning */
+.badge-category.category-ml {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+/* Data Science */
+.badge-category.category-ds {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+/* Mobile App */
+.badge-category.category-mobile {
+    background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+}
+
+/* Desktop App */
+.badge-category.category-desktop {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: #333;
+}
+
 /* Action Buttons */
 .action-button {
     display: flex;
