@@ -6,22 +6,29 @@ use App\Controllers\BaseController;
 use App\Models\SkillModel;
 use App\Models\ProjectModel;
 use App\Models\CertificateModel;
+use App\Models\VisitorLogModel;
 
 class Dashboard extends BaseController
 {
     protected $skillModel;
     protected $projectModel;
     protected $certificateModel;
+    protected $visitorLogModel;
 
     public function __construct()
     {
         $this->skillModel = new SkillModel();
         $this->projectModel = new ProjectModel();
         $this->certificateModel = new CertificateModel();
+        $this->visitorLogModel = new VisitorLogModel();
     }
 
     public function index(): string
     {
+        // Disable cache untuk development
+        $this->response->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+        $this->response->setHeader('Pragma', 'no-cache');
+        
         // Get Skills Statistics
         $skills = [];
         $totalSkills = 0;
@@ -96,6 +103,36 @@ class Dashboard extends BaseController
         $recentProjects = array_slice(array_reverse($projects), 0, 5);
         $recentCertificates = array_slice(array_reverse($certificates), 0, 5);
 
+        // Visitor Statistics
+        $totalVisitors = 0;
+        $visitorsToday = 0;
+        $visitorsThisWeek = 0;
+        $visitorsThisMonth = 0;
+        $last7DaysStats = [];
+        $chartLabels = [];
+        $chartData = [];
+
+        try {
+            $totalVisitors = $this->visitorLogModel->getTotalVisitors();
+            $visitorsToday = $this->visitorLogModel->getVisitorsToday();
+            $visitorsThisWeek = $this->visitorLogModel->getVisitorsThisWeek();
+            $visitorsThisMonth = $this->visitorLogModel->getVisitorsThisMonth();
+            
+            // Get last 7 days statistics for chart
+            $last7DaysStats = $this->visitorLogModel->getLast7DaysStats();
+            
+            foreach ($last7DaysStats as $stat) {
+                $chartLabels[] = $stat['day'];
+                $chartData[] = $stat['count'];
+            }
+        } catch (\Throwable $e) {
+            log_message('error', 'Failed to load visitor statistics in dashboard: ' . $e->getMessage());
+            
+            // Default data if table doesn't exist yet
+            $chartLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            $chartData = [0, 0, 0, 0, 0, 0, 0];
+        }
+
         $data = [
             'title' => 'Admin Dashboard | Faiq Portfolio',
             
@@ -116,6 +153,14 @@ class Dashboard extends BaseController
             'activeCertificates' => $activeCertificates,
             'shownCertificates' => $shownCertificates,
             'recentCertificates' => $recentCertificates,
+            
+            // Visitor Stats
+            'totalVisitors' => $totalVisitors,
+            'visitorsToday' => $visitorsToday,
+            'visitorsThisWeek' => $visitorsThisWeek,
+            'visitorsThisMonth' => $visitorsThisMonth,
+            'chartLabels' => json_encode($chartLabels),
+            'chartData' => json_encode($chartData),
         ];
 
         return view('admin/dashboard', $data);

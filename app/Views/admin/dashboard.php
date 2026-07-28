@@ -7,7 +7,7 @@
     <title><?= esc($title ?? 'Faiq | Admin') ?></title>
 
     <!-- Link CSS - Dashboard -->
-    <link rel="stylesheet" href="<?= base_url('assets/css/admin/dashboard.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/css/admin/dashboard.css?v=2.1') ?>">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -79,49 +79,49 @@
 
                 <div class="card stat-card">
                     <div>
-                        <h4>Total Skills</h4>
-                        <h2 class="stat-number blue"><?= $totalSkills ?? 0 ?></h2>
-                        <small style="color:#666; font-size:12px;"><?= $activeSkills ?? 0 ?> Aktif</small>
+                        <h4>Total Pengunjung</h4>
+                        <h2 class="stat-number purple"><?= $totalVisitors ?? 0 ?></h2>
+                        <small style="color:#666; font-size:12px;">Sepanjang Masa</small>
+                    </div>
+
+                    <div class="icon purple">
+                        <iconify-icon icon="solar:users-group-rounded-bold"></iconify-icon>
+                    </div>
+                </div>
+
+                <div class="card stat-card">
+                    <div>
+                        <h4>Hari Ini</h4>
+                        <h2 class="stat-number blue"><?= $visitorsToday ?? 0 ?></h2>
+                        <small style="color:#666; font-size:12px;">Pengunjung Hari Ini</small>
                     </div>
 
                     <div class="icon blue">
-                        <iconify-icon icon="solar:code-bold"></iconify-icon>
+                        <iconify-icon icon="solar:calendar-bold"></iconify-icon>
                     </div>
                 </div>
 
                 <div class="card stat-card">
                     <div>
-                        <h4>Total Project</h4>
-                        <h2 class="stat-number red"><?= $totalProjects ?? 0 ?></h2>
-                        <small style="color:#666; font-size:12px;"><?= $publishedProjects ?? 0 ?> Published</small>
-                    </div>
-
-                    <div class="icon red">
-                        <iconify-icon icon="solar:folder-bold"></iconify-icon>
-                    </div>
-                </div>
-
-                <div class="card stat-card">
-                    <div>
-                        <h4>Total Certificate</h4>
-                        <h2 class="stat-number yellow"><?= $totalCertificates ?? 0 ?></h2>
-                        <small style="color:#666; font-size:12px;"><?= $shownCertificates ?? 0 ?> Ditampilkan</small>
-                    </div>
-
-                    <div class="icon yellow">
-                        <iconify-icon icon="solar:diploma-verified-bold"></iconify-icon>
-                    </div>
-                </div>
-
-                <div class="card stat-card">
-                    <div>
-                        <h4>Kategori Skills</h4>
-                        <h2 class="stat-number green"><?= $skillCategories ?? 0 ?></h2>
-                        <small style="color:#666; font-size:12px;">Total Kategori</small>
+                        <h4>Minggu Ini</h4>
+                        <h2 class="stat-number green"><?= $visitorsThisWeek ?? 0 ?></h2>
+                        <small style="color:#666; font-size:12px;">Pengunjung Minggu Ini</small>
                     </div>
 
                     <div class="icon green">
-                        <iconify-icon icon="solar:widget-5-bold"></iconify-icon>
+                        <iconify-icon icon="solar:graph-up-bold"></iconify-icon>
+                    </div>
+                </div>
+
+                <div class="card stat-card">
+                    <div>
+                        <h4>Bulan Ini</h4>
+                        <h2 class="stat-number orange"><?= $visitorsThisMonth ?? 0 ?></h2>
+                        <small style="color:#666; font-size:12px;">Pengunjung Bulan Ini</small>
+                    </div>
+
+                    <div class="icon orange">
+                        <iconify-icon icon="solar:chart-2-bold"></iconify-icon>
                     </div>
                 </div>
 
@@ -191,7 +191,10 @@
 
                     <div class="card-header">
                         <h3>Project Terbaru</h3>
-                        <a href="<?= base_url('admin/project') ?>" style="font-size:14px; color:#007BFF;">Lihat Semua →</a>
+                        <a href="<?= base_url('admin/project') ?>" class="view-all-link">
+                            Lihat Semua
+                            <iconify-icon icon="solar:arrow-right-linear"></iconify-icon>
+                        </a>
                     </div>
 
                     <div class="project-list">
@@ -307,19 +310,27 @@
 
     <!-- Charts Script -->
     <script>
+        // Data dari Controller
+        const chartLabels = <?= $chartLabels ?? '["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]' ?>;
+        const chartData = <?= $chartData ?? '[0,0,0,0,0,0,0]' ?>;
+
         // Line Chart - Statistik Kunjungan
         const visitCtx = document.getElementById('visitChart').getContext('2d');
         const gradient = visitCtx.createLinearGradient(0, 0, 0, 250);
         gradient.addColorStop(0, 'rgba(0, 136, 255, 0.35)');
         gradient.addColorStop(1, 'rgba(0, 136, 255, 0.02)');
 
+        // Calculate max value for Y axis
+        const maxDataValue = Math.max(...chartData);
+        const yAxisMax = maxDataValue > 0 ? Math.ceil(maxDataValue / 100) * 100 + 100 : 300;
+
         new Chart(visitCtx, {
             type: 'line',
             data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                labels: chartLabels,
                 datasets: [{
                     label: 'Pengunjung',
-                    data: [170, 190, 210, 190, 215, 205, 210],
+                    data: chartData,
                     borderColor: '#0088FF',
                     backgroundColor: gradient,
                     borderWidth: 2.5,
@@ -341,9 +352,9 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        max: 300,
+                        max: yAxisMax,
                         ticks: {
-                            stepSize: 100,
+                            stepSize: Math.ceil(yAxisMax / 3),
                             color: '#54555A',
                             font: { family: 'Inter', size: 12 }
                         },
@@ -364,12 +375,19 @@
 
         // Doughnut Chart - Ringkasan
         const summaryCtx = document.getElementById('summaryChart').getContext('2d');
+        
+        // Data dinamis dari controller
+        const totalSkills = <?= $totalSkills ?? 0 ?>;
+        const totalProjects = <?= $totalProjects ?? 0 ?>;
+        const totalCertificates = <?= $totalCertificates ?? 0 ?>;
+        const publishedProjects = <?= $publishedProjects ?? 0 ?>;
+        
         new Chart(summaryCtx, {
             type: 'doughnut',
             data: {
-                labels: ['Pengunjung', 'Project', 'Skills', 'Gambar'],
+                labels: ['Skills', 'Project', 'Certificate', 'Published'],
                 datasets: [{
-                    data: [40, 25, 15, 20],
+                    data: [totalSkills, totalProjects, totalCertificates, publishedProjects],
                     backgroundColor: ['#0088FF', '#FF383C', '#FFCC00', '#34C759'],
                     borderWidth: 0,
                     hoverOffset: 6

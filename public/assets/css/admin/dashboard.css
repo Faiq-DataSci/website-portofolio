@@ -244,6 +244,14 @@ ul {
     color: #34C759;
 }
 
+.stat-number.purple {
+    color: #9D4EDD;
+}
+
+.stat-number.orange {
+    color: #FF9F1C;
+}
+
 /* Stat icon circles */
 .stat-card .icon {
     width: 60px;
@@ -291,6 +299,22 @@ ul {
     color: #34C759;
 }
 
+.stat-card .icon.purple {
+    background: #E7D5F7;
+}
+
+.stat-card .icon.purple iconify-icon {
+    color: #9D4EDD;
+}
+
+.stat-card .icon.orange {
+    background: #FFE5CC;
+}
+
+.stat-card .icon.orange iconify-icon {
+    color: #FF9F1C;
+}
+
 /* ======================================
    CHART SECTION
    ====================================== */
@@ -308,12 +332,45 @@ ul {
 
 .card-header {
     margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .card-header h3 {
     font-size: 18px;
     font-weight: 600;
     color: #000000;
+}
+
+/* View All Link */
+.view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #0088FF;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background: transparent;
+}
+
+.view-all-link:hover {
+    background: #F0F7FF;
+    color: #0066CC;
+    transform: translateX(2px);
+}
+
+.view-all-link iconify-icon {
+    font-size: 16px;
+    transition: transform 0.2s ease;
+}
+
+.view-all-link:hover iconify-icon {
+    transform: translateX(3px);
 }
 
 /* Chart body */
