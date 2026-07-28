@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($title ?? 'Faiq | Contact') ?></title>
-    
+
     <!-- Link CSS - Navbar (Global) -->
     <link rel="stylesheet" href="<?= base_url('assets/css/navbar.css?v=1.0') ?>">
-    
+
     <!-- Link CSS - Contact -->
     <link rel="stylesheet" href="<?= base_url('assets/css/contact.css') ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,7 +41,7 @@
                 </p>
             </div>
             <div class="hero-photo">
-                <img src="<?= base_url('assets/img/profile.jpg') ?>" alt="Foto Profil Faiq" onerror="this.style.display='none'; this.parentElement.classList.add('placeholder')">
+                <img src="<?= base_url('assets/img/profil.jpg') ?>" alt="Foto Profil Faiq" onerror="this.style.display='none'; this.parentElement.classList.add('placeholder')">
             </div>
         </section>
 

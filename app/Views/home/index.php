@@ -8,7 +8,7 @@
 
     <!-- Link CSS - Navbar (Global) -->
     <link rel="stylesheet" href="<?= base_url('assets/css/navbar.css?v=1.0') ?>">
-    
+
     <!-- Link CSS - Home -->
     <link rel="stylesheet" href="<?= base_url('assets/css/home.css') ?>">
 
@@ -48,7 +48,7 @@
                 </p>
             </div>
             <div class="hero-photo">
-                <img src="<?= base_url('assets/img/profile.jpg') ?>" alt="Faiq Photo Profile">
+                <img src="<?= base_url('assets/img/profil.jpg') ?>" alt="Faiq Photo Profile">
             </div>
         </section>
 
