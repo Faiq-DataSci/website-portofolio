@@ -47,6 +47,9 @@
                     solusi AI yang berdampak nyata.
                 </p>
             </div>
+            <div class="hero-photo">
+                <img src="<?= base_url('assets/img/profile.jpg') ?>" alt="Faiq Photo Profile">
+            </div>
         </section>
 
         <!-- Bagian skill yang diinginkan -->
@@ -81,7 +84,7 @@
                         dalam mengolah data kompleks menjadi solusi AI yang<br>
                         aplikatif dan berdampak nyata.
                     </p>
-                    <a href="#" class="tour-link">Ikuti tur &rarr;</a>
+                    <a href="<?= base_url('projects') ?>" class="tour-link">Lihat Projects &rarr;</a>
                 </div>
             </div>
         </section>

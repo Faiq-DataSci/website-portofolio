@@ -41,7 +41,7 @@
                 </p>
             </div>
             <div class="hero-photo">
-                <img src="/website-portofolio/public/assets/img/foto-profile.jpg" alt="Foto Profil Faiq" onerror="this.style.display='none'; this.parentElement.classList.add('placeholder')">
+                <img src="<?= base_url('assets/img/profile.jpg') ?>" alt="Foto Profil Faiq" onerror="this.style.display='none'; this.parentElement.classList.add('placeholder')">
             </div>
         </section>
 

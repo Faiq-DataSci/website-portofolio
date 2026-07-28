@@ -3,6 +3,16 @@
    Minimalis, mewah, dan elegan
    ======================================== */
 
+/* Google Fonts Import - Global */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Header Container - Global */
+header {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
 /* Navbar Container */
 .navbar {
     background: #FFFFFF;

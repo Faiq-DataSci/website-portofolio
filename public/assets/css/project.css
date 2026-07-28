@@ -38,12 +38,6 @@ body {
     background-color: var(--bg-white);
 }
 
-/* Navbar */
-header {
-    display: flex;
-    justify-content: center;
-    padding: 20px 0;
-}
 /* Navbar styles dipindahkan ke navbar.css (global) */
 
 /* Hero */
