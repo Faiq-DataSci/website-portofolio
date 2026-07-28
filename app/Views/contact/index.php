@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= esc($title ?? 'Faiq | Contact') ?></title>
-    <link rel="stylesheet" href="/website-portofolio/public/assets/css/contact.css">
+    <link rel="stylesheet" href="<?= base_url('assets/css/contact.css') ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
                 <li><a href="<?= base_url('projects') ?>">Projects</a></li>
                 <li><a href="<?= base_url('skills') ?>">Skills</a></li>
                 <li><a href="<?= base_url('about') ?>">About</a></li>
-                <li><a href="<?= base_url('contact') ?>">Contact</a></li>
+                <li><a href="<?= base_url('contact') ?>" class="active">Contact</a></li>
             </ul>
         </nav>
     </header>

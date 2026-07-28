@@ -7,7 +7,7 @@
     <title><?= esc($title ?? 'Faiq | Portofolio') ?></title>
 
     <!-- Link CSS - Home -->
-    <link rel="stylesheet" href="assets/css/home.css">
+    <link rel="stylesheet" href="<?= base_url('assets/css/home.css') ?>">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +24,7 @@
         <header>
             <nav class="navbar">
                 <ul class="nav-menu">
-                    <li><a href="<?= base_url('/') ?>">Home</a></li>
+                    <li><a href="<?= base_url('/') ?>" class="active">Home</a></li>
                     <li><a href="<?= base_url('projects') ?>">Projects</a></li>
                     <li><a href="<?= base_url('skills') ?>">Skills</a></li>
                     <li><a href="<?= base_url('about') ?>">About</a></li>

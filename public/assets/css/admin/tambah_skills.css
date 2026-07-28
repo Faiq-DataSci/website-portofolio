@@ -1,0 +1,525 @@
+/* ===========================
+   Admin Tambah Skills CSS
+   =========================== */
+
+/* ---------- Reset & Base ---------- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    background: #F5F6FA;
+    color: #000000;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* ---------- Layout Container ---------- */
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ======================================
+   SIDEBAR
+   ====================================== */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 230px;
+    height: 100vh;
+    background: #FFFFFF;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    z-index: 100;
+}
+
+.sidebar .logo {
+    padding: 32px 20px 30px;
+}
+
+.sidebar .logo h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+    white-space: nowrap;
+}
+
+.sidebar .logo h2 span {
+    color: #0088FF;
+    font-weight: 500;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px 16px;
+    flex: 1;
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000000;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.sidebar-menu a:hover {
+    background: #F5F6FA;
+}
+
+.sidebar-menu a.active {
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    font-weight: 500;
+}
+
+.sidebar-menu a iconify-icon {
+    font-size: 22px;
+}
+
+.sidebar-menu a:nth-child(1) iconify-icon { color: #0088FF; }
+.sidebar-menu a:nth-child(2) iconify-icon { color: #FF383C; }
+.sidebar-menu a:nth-child(3) iconify-icon { color: #FFCC00; }
+.sidebar-menu a:nth-child(4) iconify-icon { color: #34C759; }
+
+.sidebar-menu::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.12);
+    margin: 12px 0 0;
+}
+
+.logout {
+    padding: 16px 16px 28px;
+}
+
+.logout a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #FF383C;
+    border-radius: 10px;
+    transition: background 0.2s ease;
+}
+
+.logout a:hover {
+    background: #FFF0F0;
+}
+
+.logout a iconify-icon {
+    font-size: 22px;
+    color: #FF383C;
+}
+
+/* ======================================
+   MAIN CONTENT
+   ====================================== */
+.main-content {
+    margin-left: 230px;
+    flex: 1;
+    padding: 28px 30px 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #FFFFFF;
+}
+
+/* ---------- Breadcrumb ---------- */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #54555A;
+    margin-bottom: 16px;
+}
+
+.breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #54555A;
+    transition: color 0.2s ease;
+}
+
+.breadcrumb a:hover {
+    color: #0088FF;
+}
+
+.breadcrumb .sep {
+    font-size: 14px;
+    color: #8E8E93;
+}
+
+.breadcrumb .active {
+    color: #54555A;
+    font-weight: 500;
+}
+
+/* ---------- Page Header ---------- */
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #000000;
+    line-height: 1.2;
+}
+
+.page-header p {
+    font-size: 16px;
+    color: #000000;
+    opacity: 0.5;
+    margin-top: 2px;
+}
+
+/* Flash Alerts */
+.alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.alert-error {
+    background: #FFD5D6;
+    color: #D32F2F;
+}
+
+/* ======================================
+   FORM CARD
+   ====================================== */
+.form-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 24px;
+}
+
+.form-card h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 24px;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    gap: 32px;
+    margin-bottom: 32px;
+}
+
+.vertical-divider {
+    background: rgba(0, 0, 0, 0.15);
+    width: 1px;
+    height: 100%;
+}
+
+.form-group {
+    margin-bottom: 28px;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 8px;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #000000;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input[type="text"]:focus {
+    border-color: #0088FF;
+}
+
+.form-group small {
+    display: block;
+    font-size: 12px;
+    color: #7C7C80;
+    margin-top: 6px;
+}
+
+/* Range Slider */
+.range-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.range-wrapper input[type="range"] {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 10px;
+    outline: none;
+    background: linear-gradient(to right, #0088FF 0%, #0088FF 80%, #E5E5EA 80%, #E5E5EA 100%);
+    cursor: pointer;
+}
+
+.range-wrapper input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #0088FF;
+    cursor: pointer;
+    box-shadow: 0 0 0 3px rgba(0, 136, 255, 0.2);
+}
+
+.range-value-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 6px;
+    padding: 4px 8px;
+    background: #FFFFFF;
+}
+
+.range-value-box input {
+    width: 36px;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+}
+
+.range-value-box span {
+    font-size: 14px;
+    color: #000000;
+}
+
+/* Icon Selector Grid */
+.icon-selector-grid {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+}
+
+.icon-option {
+    width: 54px;
+    height: 54px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: #FFFFFF;
+    transition: all 0.2s ease;
+}
+
+.icon-option input[type="radio"] {
+    display: none;
+}
+
+.icon-option iconify-icon {
+    font-size: 30px;
+}
+
+.icon-option:hover {
+    border-color: #0088FF;
+    background: #F0F7FF;
+}
+
+.icon-option.active {
+    border: 2px solid #0088FF;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 2px rgba(0, 136, 255, 0.15);
+}
+
+/* Select Wrapper */
+.select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.select-wrapper select {
+    width: 100%;
+    padding: 12px 36px 12px 16px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #000000;
+    outline: none;
+    background: #FFFFFF;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.select-wrapper select:focus {
+    border-color: #0088FF;
+}
+
+.select-icon {
+    position: absolute;
+    right: 14px;
+    pointer-events: none;
+    font-size: 18px;
+    color: #54555A;
+}
+
+/* Status Radio Group */
+.status-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 4px;
+}
+
+.status-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.status-option input[type="radio"] {
+    margin-top: 3px;
+    accent-color: #0088FF;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.status-text strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000000;
+}
+
+.status-text small {
+    display: block;
+    font-size: 12px;
+    color: #7C7C80;
+    margin-top: 2px;
+}
+
+/* Form Action Buttons */
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #0088FF;
+    color: #FFFFFF;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-submit:hover {
+    background: #0077E6;
+}
+
+.btn-submit iconify-icon {
+    font-size: 18px;
+}
+
+.btn-cancel {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+    transition: background 0.2s ease;
+}
+
+.btn-cancel:hover {
+    background: #F5F6FA;
+}
+
+/* ======================================
+   FOOTER
+   ====================================== */
+.footer {
+    margin-top: auto;
+    padding: 16px 0;
+    text-align: center;
+    font-size: 13px;
+    color: #000000;
+    opacity: 0.5;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
