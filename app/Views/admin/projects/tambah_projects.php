@@ -92,6 +92,11 @@
                     <span>Certificate</span>
                 </a>
 
+                <a href="<?= base_url('admin/technology-colors') ?>">
+                    <iconify-icon icon="solar:palette-bold"></iconify-icon>
+                    <span>Tech Colors</span>
+                </a>
+
             </nav>
 
             <div class="logout">
@@ -306,17 +311,26 @@
                                     $selectedTechs = [];
                                 }
                             }
+
+                            // Technology colors map dari controller
+                            $techColors = $technologyColors ?? [];
                         ?>
 
                         <div class="tech-stack-grid">
                             <?php foreach ($availableTechs as $tech): ?>
-                                <label class="tech-item <?= in_array($tech, $selectedTechs) ? 'active' : '' ?>">
+                                <?php 
+                                    $isActive = in_array($tech, $selectedTechs);
+                                    $techColor = $techColors[$tech] ?? '#667eea';
+                                ?>
+                                <label class="tech-item <?= $isActive ? 'active' : '' ?>" data-tech-name="<?= esc($tech) ?>" data-tech-color="<?= esc($techColor) ?>">
                                     <input 
                                         type="checkbox" 
                                         name="technologies[]" 
                                         value="<?= esc($tech) ?>"
-                                        <?= in_array($tech, $selectedTechs) ? 'checked' : '' ?>>
-                                    <span class="tech-label"><?= esc($tech) ?></span>
+                                        <?= $isActive ? 'checked' : '' ?>>
+                                    <span class="tech-label" style="<?= $isActive ? 'background: ' . $techColor . '15; color: ' . $techColor . '; border-color: ' . $techColor . '30;' : '' ?>">
+                                        <?= esc($tech) ?>
+                                    </span>
                                 </label>
                             <?php endforeach; ?>
                         </div>
@@ -364,12 +378,23 @@
         document.querySelectorAll('.tech-item').forEach(function(label) {
             label.addEventListener('click', function() {
                 const checkbox = this.querySelector('input[type="checkbox"]');
+                const techLabel = this.querySelector('.tech-label');
+                const techColor = this.getAttribute('data-tech-color') || '#667eea';
+                
                 // Toggle checked state (click already does this, but we sync the visual)
                 setTimeout(() => {
                     if (checkbox.checked) {
                         this.classList.add('active');
+                        // Apply color styling
+                        techLabel.style.background = techColor + '15';
+                        techLabel.style.color = techColor;
+                        techLabel.style.borderColor = techColor + '30';
                     } else {
                         this.classList.remove('active');
+                        // Remove color styling
+                        techLabel.style.background = '';
+                        techLabel.style.color = '';
+                        techLabel.style.borderColor = '';
                     }
                 }, 0);
             });

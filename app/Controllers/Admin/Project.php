@@ -4,14 +4,17 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\ProjectModel;
+use App\Models\TechnologyColorModel;
 
 class Project extends BaseController
 {
     protected $projectModel;
+    protected $technologyColorModel;
 
     public function __construct()
     {
         $this->projectModel = new ProjectModel();
+        $this->technologyColorModel = new TechnologyColorModel();
     }
 
     public function index(): string
@@ -55,10 +58,14 @@ class Project extends BaseController
 
     public function create(): string
     {
+        // Get technology colors map
+        $technologyColors = $this->technologyColorModel->getTechnologyColorsMap();
+        
         $data = [
-            'title'   => 'Tambah Project | Admin Faiq',
-            'project' => null,
-            'isEdit'  => false,
+            'title'             => 'Tambah Project | Admin Faiq',
+            'project'           => null,
+            'isEdit'            => false,
+            'technologyColors'  => $technologyColors,
         ];
         return view('admin/projects/tambah_projects', $data);
     }
@@ -144,10 +151,14 @@ class Project extends BaseController
             return redirect()->to(base_url('admin/project'))->with('error', 'Project tidak ditemukan.');
         }
 
+        // Get technology colors map
+        $technologyColors = $this->technologyColorModel->getTechnologyColorsMap();
+
         $data = [
-            'title'   => 'Edit Project | Admin Faiq',
-            'project' => $project,
-            'isEdit'  => true,
+            'title'             => 'Edit Project | Admin Faiq',
+            'project'           => $project,
+            'isEdit'            => true,
+            'technologyColors'  => $technologyColors,
         ];
 
         return view('admin/projects/tambah_projects', $data);

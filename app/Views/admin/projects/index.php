@@ -51,6 +51,11 @@
                     <span>Certificate</span>
                 </a>
 
+                <a href="<?= base_url('admin/technology-colors') ?>">
+                    <iconify-icon icon="solar:palette-bold"></iconify-icon>
+                    <span>Tech Colors</span>
+                </a>
+
             </nav>
 
             <div class="logout">

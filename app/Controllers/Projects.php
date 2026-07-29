@@ -3,14 +3,17 @@
 namespace App\Controllers;
 
 use App\Models\ProjectModel;
+use App\Models\TechnologyColorModel;
 
 class Projects extends BaseController
 {
     protected $projectModel;
+    protected $technologyColorModel;
 
     public function __construct()
     {
         $this->projectModel = new ProjectModel();
+        $this->technologyColorModel = new TechnologyColorModel();
     }
 
     public function index(): string
@@ -56,13 +59,30 @@ class Projects extends BaseController
                 ])->setStatusCode(404);
             }
 
+            // Get technology colors map from database
+            $technologyColorsMap = $this->technologyColorModel->getTechnologyColorsMap();
+
+            // Parse technologies and add colors
+            $technologies = [];
+            if (!empty($project['technologies'])) {
+                $techList = json_decode($project['technologies'], true);
+                if (is_array($techList)) {
+                    foreach ($techList as $tech) {
+                        $technologies[] = [
+                            'name'  => $tech,
+                            'color' => $technologyColorsMap[$tech] ?? '#667eea' // default color if not found
+                        ];
+                    }
+                }
+            }
+
             return $this->response->setJSON([
                 'success' => true,
                 'data' => [
                     'id'           => $project['id'],
                     'title'        => $project['title'],
                     'description'  => $project['description'],
-                    'technologies' => !empty($project['technologies']) ? json_decode($project['technologies'], true) : [],
+                    'technologies' => $technologies,
                     'thumbnail'    => $project['thumbnail'] ? base_url('uploads/projects/' . $project['thumbnail']) : null,
                     'github'       => $project['github'],
                     'demo'         => $project['demo'],

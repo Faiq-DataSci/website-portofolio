@@ -239,7 +239,15 @@
                 <?php if (!empty($certificates) && count($certificates) > 0): ?>
                     <div class="certificate-grid">
                         <?php foreach ($certificates as $cert): ?>
-                            <div class="certificate-card" title="<?= esc($cert['title']) ?>" style="position:relative; overflow:hidden;">
+                            <div class="certificate-card" 
+                                 title="Klik untuk preview"
+                                 data-cert-title="<?= esc($cert['title']) ?>"
+                                 data-cert-issuer="<?= esc($cert['issuer'] ?? '') ?>"
+                                 data-cert-date="<?= !empty($cert['issue_date']) ? date('M Y', strtotime($cert['issue_date'])) : '' ?>"
+                                 data-cert-image="<?= !empty($cert['image']) && $cert['image'] !== 'default.jpg' ? base_url('uploads/certificates/' . $cert['image']) : '' ?>"
+                                 data-cert-url="<?= esc($cert['credential_url'] ?? '') ?>"
+                                 onclick="openCertificateModal(this)"
+                                 style="position:relative; overflow:hidden;">
                                 <?php if (!empty($cert['image']) && $cert['image'] !== 'default.jpg'): ?>
                                     <img src="<?= base_url('uploads/certificates/' . $cert['image']) ?>" 
                                          alt="<?= esc($cert['title']) ?>"
@@ -280,6 +288,40 @@
                     </div>
                 <?php endif; ?>
             </section>
+
+            <!-- Certificate Preview Modal -->
+            <div id="certificateModal" class="cert-modal" onclick="closeCertificateModal(event)">
+                <div class="cert-modal-content" onclick="event.stopPropagation()">
+                    <button class="cert-modal-close" onclick="closeCertificateModal()" title="Tutup">
+                        <iconify-icon icon="solar:close-circle-bold" width="32"></iconify-icon>
+                    </button>
+                    
+                    <div class="cert-modal-header">
+                        <h3 id="modalCertTitle">Certificate Title</h3>
+                        <div class="cert-modal-meta">
+                            <span id="modalCertIssuer"></span>
+                            <span id="modalCertDate"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="cert-modal-body">
+                        <div id="modalCertImageContainer" class="cert-image-container">
+                            <img id="modalCertImage" src="" alt="Certificate Preview">
+                        </div>
+                        <div id="modalCertNoImage" class="cert-no-image" style="display:none;">
+                            <iconify-icon icon="solar:diploma-bold" width="80"></iconify-icon>
+                            <p>Tidak ada gambar sertifikat</p>
+                        </div>
+                    </div>
+                    
+                    <div class="cert-modal-footer">
+                        <a id="modalCertUrl" href="#" target="_blank" rel="noopener noreferrer" class="cert-verify-btn" style="display:none;">
+                            <iconify-icon icon="solar:link-circle-bold" width="20"></iconify-icon>
+                            Verifikasi Credential
+                        </a>
+                    </div>
+                </div>
+            </div>
             
             <style>
                 .certificate-card:hover .cert-overlay {
@@ -297,7 +339,283 @@
                     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
                     transform: translateY(-4px);
                 }
+
+                /* Certificate Modal Styles */
+                .cert-modal {
+                    display: none;
+                    position: fixed;
+                    z-index: 9999;
+                    left: 0;
+                    top: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: rgba(0, 0, 0, 0.9);
+                    animation: fadeIn 0.3s ease;
+                }
+
+                .cert-modal.active {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 20px;
+                }
+
+                .cert-modal-content {
+                    background: white;
+                    border-radius: 16px;
+                    max-width: 900px;
+                    width: 100%;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                    position: relative;
+                    animation: slideUp 0.3s ease;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                }
+
+                .cert-modal-close {
+                    position: absolute;
+                    top: 16px;
+                    right: 16px;
+                    background: rgba(255, 255, 255, 0.95);
+                    border: none;
+                    border-radius: 50%;
+                    width: 44px;
+                    height: 44px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    z-index: 10;
+                    transition: all 0.3s;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                }
+
+                .cert-modal-close:hover {
+                    background: #ff4757;
+                    color: white;
+                    transform: rotate(90deg);
+                }
+
+                .cert-modal-header {
+                    padding: 32px 32px 24px;
+                    border-bottom: 1px solid #eee;
+                }
+
+                .cert-modal-header h3 {
+                    margin: 0 0 12px;
+                    font-size: 24px;
+                    color: #2c3e50;
+                    font-weight: 700;
+                }
+
+                .cert-modal-meta {
+                    display: flex;
+                    gap: 20px;
+                    flex-wrap: wrap;
+                    font-size: 14px;
+                    color: #666;
+                }
+
+                .cert-modal-meta span {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                }
+
+                .cert-modal-body {
+                    padding: 24px;
+                }
+
+                .cert-image-container {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+                    background: #f8f9fa;
+                    border-radius: 12px;
+                    overflow: hidden;
+                }
+
+                .cert-image-container img {
+                    width: 100%;
+                    height: auto;
+                    display: block;
+                    cursor: zoom-in;
+                }
+
+                .cert-no-image {
+                    text-align: center;
+                    padding: 80px 20px;
+                    color: #999;
+                }
+
+                .cert-no-image iconify-icon {
+                    color: #ddd;
+                    margin-bottom: 16px;
+                }
+
+                .cert-modal-footer {
+                    padding: 20px 32px 32px;
+                    text-align: center;
+                }
+
+                .cert-verify-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 12px 24px;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    transition: all 0.3s;
+                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+                }
+
+                .cert-verify-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+                }
+
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+
+                @keyframes slideUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(30px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+
+                /* Responsive */
+                @media (max-width: 768px) {
+                    .cert-modal-content {
+                        max-height: 95vh;
+                        border-radius: 12px 12px 0 0;
+                        margin-top: auto;
+                    }
+
+                    .cert-modal-header {
+                        padding: 24px 20px 16px;
+                    }
+
+                    .cert-modal-header h3 {
+                        font-size: 20px;
+                    }
+
+                    .cert-modal-body {
+                        padding: 16px;
+                    }
+
+                    .cert-modal-footer {
+                        padding: 16px 20px 24px;
+                    }
+
+                    .cert-modal-close {
+                        width: 36px;
+                        height: 36px;
+                        top: 12px;
+                        right: 12px;
+                    }
+                }
             </style>
+
+            <script>
+                function openCertificateModal(element) {
+                    const modal = document.getElementById('certificateModal');
+                    const title = element.getAttribute('data-cert-title');
+                    const issuer = element.getAttribute('data-cert-issuer');
+                    const date = element.getAttribute('data-cert-date');
+                    const image = element.getAttribute('data-cert-image');
+                    const url = element.getAttribute('data-cert-url');
+
+                    // Set title
+                    document.getElementById('modalCertTitle').textContent = title;
+
+                    // Set issuer
+                    const issuerElement = document.getElementById('modalCertIssuer');
+                    if (issuer) {
+                        issuerElement.innerHTML = '<iconify-icon icon="solar:verified-check-bold"></iconify-icon>' + issuer;
+                        issuerElement.style.display = 'flex';
+                    } else {
+                        issuerElement.style.display = 'none';
+                    }
+
+                    // Set date
+                    const dateElement = document.getElementById('modalCertDate');
+                    if (date) {
+                        dateElement.innerHTML = '<iconify-icon icon="solar:calendar-bold"></iconify-icon>' + date;
+                        dateElement.style.display = 'flex';
+                    } else {
+                        dateElement.style.display = 'none';
+                    }
+
+                    // Set image
+                    const imageContainer = document.getElementById('modalCertImageContainer');
+                    const noImageContainer = document.getElementById('modalCertNoImage');
+                    const imageElement = document.getElementById('modalCertImage');
+
+                    if (image) {
+                        imageElement.src = image;
+                        imageElement.alt = title;
+                        imageContainer.style.display = 'block';
+                        noImageContainer.style.display = 'none';
+                    } else {
+                        imageContainer.style.display = 'none';
+                        noImageContainer.style.display = 'block';
+                    }
+
+                    // Set credential URL
+                    const urlElement = document.getElementById('modalCertUrl');
+                    if (url) {
+                        urlElement.href = url;
+                        urlElement.style.display = 'inline-flex';
+                    } else {
+                        urlElement.style.display = 'none';
+                    }
+
+                    // Show modal
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeCertificateModal(event) {
+                    // Jika event tidak ada (dari tombol close) atau klik pada backdrop
+                    if (!event || event.target.id === 'certificateModal') {
+                        const modal = document.getElementById('certificateModal');
+                        modal.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                }
+
+                // Close modal with Escape key
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Escape') {
+                        closeCertificateModal();
+                    }
+                });
+
+                // Zoom image on click
+                document.addEventListener('DOMContentLoaded', function() {
+                    const modalImage = document.getElementById('modalCertImage');
+                    modalImage.addEventListener('click', function() {
+                        if (this.style.cursor === 'zoom-out') {
+                            this.style.transform = 'scale(1)';
+                            this.style.cursor = 'zoom-in';
+                        } else {
+                            this.style.transform = 'scale(1.5)';
+                            this.style.cursor = 'zoom-out';
+                            this.style.transition = 'transform 0.3s ease';
+                        }
+                    });
+                });
+            </script>
         </main>
 
         <!-- Footer -->

@@ -128,30 +128,53 @@ h1, h2, h3 {
     justify-content: flex-end;
 }
 
-/* Tech Stack Banner */
+/* Tech Stack Banner - Infinite Scroll */
 .tech-stack-banner {
     border-top: 1px solid rgba(0,0,0,0.1);
     border-bottom: 1px solid rgba(0,0,0,0.1);
     padding: 32px 0;
     margin-bottom: 80px;
+    overflow: hidden;
+    position: relative;
+}
+
+.tech-scroll-wrapper {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    width: 100%;
 }
 
 .tech-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
+    display: inline-flex;
     gap: 56px;
-    flex-wrap: wrap;
-    padding: 0 20px;
+    animation: scroll-left 30s linear infinite;
+    will-change: transform;
+    padding-left: 56px;
+}
+
+/* Pause animation on hover */
+.tech-stack-banner:hover .tech-container {
+    animation-play-state: paused;
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-100% / 3));
+    }
 }
 
 .tech-item {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 12px;
     font-size: 24px;
     font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .tech-item iconify-icon {

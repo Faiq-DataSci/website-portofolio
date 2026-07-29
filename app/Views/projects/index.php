@@ -263,9 +263,13 @@
             const techChips   = document.getElementById('modalTechChips');
 
             if (project.technologies && Array.isArray(project.technologies) && project.technologies.length > 0) {
-                techChips.innerHTML = project.technologies.map(tech =>
-                    `<span class="tech-chip">${escapeHtml(tech)}</span>`
-                ).join('');
+                techChips.innerHTML = project.technologies.map(tech => {
+                    // Handle both old format (string) and new format (object with name and color)
+                    const techName = typeof tech === 'string' ? tech : (tech.name || 'Unknown');
+                    const techColor = typeof tech === 'object' && tech.color ? tech.color : '#667eea';
+                    
+                    return `<span class="tech-chip" style="background: ${techColor}15; color: ${techColor}; border-color: ${techColor}30;">${escapeHtml(techName)}</span>`;
+                }).join('');
                 techSection.style.display = 'block';
             } else {
                 techSection.style.display = 'none';

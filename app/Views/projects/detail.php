@@ -414,28 +414,23 @@
     align-items: center;
     gap: 6px;
     padding: 8px 15px;
-    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-    color: #5a67d8;
-    border: 1.5px solid #667eea30;
+    border: 1.5px solid;
     border-radius: 8px;
     font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.2px;
     transition: all 0.2s;
-    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .tech-chip::before {
     content: '●';
     font-size: 8px;
-    color: #667eea;
 }
 
 .tech-chip:hover {
-    background: linear-gradient(135deg, #667eea25 0%, #764ba225 100%);
-    border-color: #667eea;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* Scrollbar */

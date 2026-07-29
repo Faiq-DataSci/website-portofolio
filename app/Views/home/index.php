@@ -54,13 +54,32 @@
 
         <!-- Bagian skill yang diinginkan -->
         <section id="skills" class="tech-stack-banner">
-            <div class="tech-container">
-                <div class="tech-item"><iconify-icon icon="logos:python"></iconify-icon> Python</div>
-                <div class="tech-item"><iconify-icon icon="devicon:pandas"></iconify-icon> Pandas</div>
-                <div class="tech-item"><iconify-icon icon="logos:numpy"></iconify-icon> Numpy</div>
-                <div class="tech-item"><iconify-icon icon="logos:mysql"></iconify-icon> MySQL</div>
-                <div class="tech-item"><iconify-icon icon="logos:tensorflow"></iconify-icon> TensorFlow</div>
-                <div class="tech-item"><iconify-icon icon="logos:git-icon"></iconify-icon> Git</div>
+            <div class="tech-scroll-wrapper">
+                <div class="tech-container">
+                    <!-- Set pertama -->
+                    <div class="tech-item"><iconify-icon icon="logos:python"></iconify-icon> Python</div>
+                    <div class="tech-item"><iconify-icon icon="devicon:pandas"></iconify-icon> Pandas</div>
+                    <div class="tech-item"><iconify-icon icon="logos:numpy"></iconify-icon> Numpy</div>
+                    <div class="tech-item"><iconify-icon icon="logos:mysql"></iconify-icon> MySQL</div>
+                    <div class="tech-item"><iconify-icon icon="logos:tensorflow"></iconify-icon> TensorFlow</div>
+                    <div class="tech-item"><iconify-icon icon="logos:git-icon"></iconify-icon> Git</div>
+                    
+                    <!-- Set kedua (duplikasi untuk infinite scroll seamless) -->
+                    <div class="tech-item"><iconify-icon icon="logos:python"></iconify-icon> Python</div>
+                    <div class="tech-item"><iconify-icon icon="devicon:pandas"></iconify-icon> Pandas</div>
+                    <div class="tech-item"><iconify-icon icon="logos:numpy"></iconify-icon> Numpy</div>
+                    <div class="tech-item"><iconify-icon icon="logos:mysql"></iconify-icon> MySQL</div>
+                    <div class="tech-item"><iconify-icon icon="logos:tensorflow"></iconify-icon> TensorFlow</div>
+                    <div class="tech-item"><iconify-icon icon="logos:git-icon"></iconify-icon> Git</div>
+                    
+                    <!-- Set ketiga (tambahan untuk seamless loop) -->
+                    <div class="tech-item"><iconify-icon icon="logos:python"></iconify-icon> Python</div>
+                    <div class="tech-item"><iconify-icon icon="devicon:pandas"></iconify-icon> Pandas</div>
+                    <div class="tech-item"><iconify-icon icon="logos:numpy"></iconify-icon> Numpy</div>
+                    <div class="tech-item"><iconify-icon icon="logos:mysql"></iconify-icon> MySQL</div>
+                    <div class="tech-item"><iconify-icon icon="logos:tensorflow"></iconify-icon> TensorFlow</div>
+                    <div class="tech-item"><iconify-icon icon="logos:git-icon"></iconify-icon> Git</div>
+                </div>
             </div>
         </section>
 

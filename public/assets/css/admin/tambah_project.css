@@ -557,12 +557,24 @@ ul {
     align-items: center;
     gap: 6px;
     padding: 8px 16px;
-    border: 1.5px solid;
+    border: 1.5px solid #e0e0e0;
     border-radius: 8px;
     background: #FFFFFF;
     cursor: pointer;
     transition: all 0.2s ease;
     user-select: none;
+}
+
+.tech-item:hover {
+    border-color: #c0c0c0;
+    background: #f8f8f8;
+}
+
+.tech-item.active::before {
+    content: '✓';
+    font-size: 12px;
+    font-weight: 700;
+    margin-right: 2px;
 }
 
 .tech-item input[type="checkbox"] {
@@ -572,12 +584,28 @@ ul {
 .tech-label {
     font-size: 13px;
     font-weight: 500;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
+    color: #666;
+    border: 1.5px solid transparent;
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: transparent;
 }
 
 /* ========================================
-   COLOR VARIANTS - Each Technology
+   COLOR VARIANTS - DISABLED (Using Dynamic Colors from Database)
    ======================================== */
+
+/* 
+   All technology colors are now dynamically loaded from database
+   and applied via inline styles in JavaScript.
+   
+   If you need to add default colors for new technologies,
+   please add them in the database via admin panel:
+   http://localhost:8080/admin/technology-colors
+*/
+
+/* --- OLD HARD-CODED COLORS (DISABLED) ---
 
 /* Python - Blue */
 .tech-item:nth-child(1) { border-color: #3776AB20; background: #3776AB08; }
@@ -809,3 +837,5 @@ ul {
 .tech-item:nth-child(33):hover { border-color: #0078D4; background: #0078D415; }
 .tech-item:nth-child(33).active { border-color: #0078D4; background: #0078D425; }
 .tech-item:nth-child(33).active::before { content: '✓'; font-size: 12px; color: #0078D4; font-weight: 700; }
+
+--- END OF OLD HARD-CODED COLORS --- */

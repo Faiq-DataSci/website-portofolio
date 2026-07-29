@@ -43,4 +43,12 @@ $routes->group('admin', ['filter' => 'adminAuth'], static function ($routes) {
     $routes->get('certificates/edit/(:num)', 'Admin\Certificate::edit/$1');
     $routes->post('certificates/update/(:num)', 'Admin\Certificate::update/$1');
     $routes->get('certificates/delete/(:num)', 'Admin\Certificate::delete/$1');
+
+    // Admin Technology Colors CRUD Routes
+    $routes->get('technology-colors', 'Admin\TechnologyColor::index');
+    $routes->get('technology-colors/create', 'Admin\TechnologyColor::create');
+    $routes->post('technology-colors/store', 'Admin\TechnologyColor::store');
+    $routes->get('technology-colors/edit/(:num)', 'Admin\TechnologyColor::edit/$1');
+    $routes->post('technology-colors/update/(:num)', 'Admin\TechnologyColor::update/$1');
+    $routes->get('technology-colors/delete/(:num)', 'Admin\TechnologyColor::delete/$1');
 });
